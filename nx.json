@@ -95,6 +95,11 @@
     "@nx/vitest:test": {
       "cache": true,
       "inputs": ["default", "^production"]
+    },
+    "@nx/webpack:webpack": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "namedInputs": {

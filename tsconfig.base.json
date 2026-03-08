@@ -31,6 +31,7 @@
       "@realworld/core/forms": ["libs/core/forms/src/index.ts"],
       "@realworld/core/http-client": ["libs/core/http-client/src/index.ts"],
       "@realworld/home/feature-home": ["libs/home/feature-home/src/index.ts"],
+      "@realworld/car/feature-car": ["libs/car/feature-car/src/index.ts"],
       "@realworld/profile/data-access": ["libs/profile/data-access/src/index.ts"],
       "@realworld/profile/feature-profile": ["libs/profile/feature-profile/src/index.ts"],
       "@realworld/settings/data-access": ["libs/settings/data-access/src/index.ts"],

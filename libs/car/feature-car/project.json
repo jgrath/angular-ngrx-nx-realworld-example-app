@@ -1,8 +1,7 @@
 {
-  "name": "settings-feature-settings",
+  "name": "car-feature-car",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/settings/feature-settings/src",
+  "sourceRoot": "libs/car/feature-car/src",
   "prefix": "cdt"
 }
-

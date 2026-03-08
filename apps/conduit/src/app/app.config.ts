@@ -21,6 +21,10 @@ export const appConfig: ApplicationConfig = {
           loadComponent: () => import('@realworld/home/feature-home').then((m) => m.HomeComponent),
         },
         {
+          path: 'car',
+          loadComponent: () => import('@realworld/car/feature-car').then((m) => m.CarComponent),
+        },
+        {
           path: 'login',
           loadComponent: () => import('@realworld/auth/feature-auth').then((m) => m.LoginComponent),
         },

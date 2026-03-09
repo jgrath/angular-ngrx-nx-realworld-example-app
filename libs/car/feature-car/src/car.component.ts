@@ -1,9 +1,22 @@
-import { Component, signal, AfterViewInit, ViewChild, effect, viewChild, OnInit, Signal, inject } from '@angular/core';
+import {
+  Component,
+  signal,
+  AfterViewInit,
+  ViewChild,
+  effect,
+  viewChild,
+  OnInit,
+  Signal,
+  inject,
+  computed,
+} from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { email, form, Field, required } from '@angular/forms/signals';
 import { CarDialogComponent } from './feature-car-edit/update-car.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CarsListStore } from '@realworld/car/data-access/cars-list.store';
+import { Car } from '@realworld/core/api-types/src/lib/car';
 
 export interface CarData {
   id: number;
@@ -12,17 +25,6 @@ export interface CarData {
   serviceDate: string;
 }
 
-const CAR_DATA: CarData[] = [
-  { id: 1, brand: 'Tesla', model: 'Model 3', serviceDate: '2026-03-19T13:23' },
-  { id: 2, brand: 'BMW', model: 'X5', serviceDate: '2026-03-19T13:23' },
-  { id: 3, brand: 'Ford', model: 'Mustang', serviceDate: '2026-03-19T13:23' },
-  { id: 4, brand: 'Volvo', model: 'Volvo 5', serviceDate: '2026-03-19T13:23' },
-  { id: 5, brand: 'Mercedes', model: 'TR76', serviceDate: '2026-03-19T13:23' },
-  { id: 6, brand: 'Toyota', model: '88', serviceDate: '2026-03-19T13:23' },
-  { id: 7, brand: 'Toyota22', model: '8d', serviceDate: '2026-03-19T13:23' },
-  // ... Add at least 6+ items to see the pagination work
-];
-
 @Component({
   selector: 'cdt-car',
   templateUrl: './car.component.html',
@@ -30,12 +32,16 @@ const CAR_DATA: CarData[] = [
   imports: [MatTableModule, MatPaginatorModule, Field],
 })
 export class CarComponent implements OnInit {
-  private dialog = inject(MatDialog); // ✅ Recommended
+  private dialog = inject(MatDialog);
+
+  private readonly carsListStore = inject(CarsListStore);
+
   constructor() {
     effect(() => {
       if (this.updateDate()) {
-        console.log('is ');
-        this.dataSource.set(new MatTableDataSource<CarData>(CAR_DATA));
+        this.carsListStore.loadCars('d')
+        const allCarsArray: Car[] = this.carsListStore.cars.entities();
+        this.dataSource.set(new MatTableDataSource<CarData>(allCarsArray));
       }
     });
   }
@@ -61,7 +67,7 @@ export class CarComponent implements OnInit {
 
   addCar() {
     console.log('btton');
-    this.dataSource.set(new MatTableDataSource<CarData>(CAR_DATA));
+    //this.dataSource.set(new MatTableDataSource<CarData>(CAR_DATA));
     this.updateDate.set(true);
   }
 

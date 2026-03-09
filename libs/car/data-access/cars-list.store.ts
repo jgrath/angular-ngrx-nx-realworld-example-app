@@ -18,7 +18,7 @@ export const CarsListStore = signalStore(
       pipe(
         tap(() => setLoading('getCars')),
         concatMap((listConfig) =>
-          carsService.query().pipe(
+          carsService.findAllCars().pipe(
             tapResponse({
               next: (carsArray: { cars: Car[] }) =>
                 patchState(store, {

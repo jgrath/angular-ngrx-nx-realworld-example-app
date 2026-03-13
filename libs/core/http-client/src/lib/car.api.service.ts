@@ -15,6 +15,13 @@ export class CarApiService {
     });
   }
 
+    post<T, D>(url: string, data: D): Observable<T> {
+    return this.http.post<T>(`${this.car_api_url}${url}`, data, {
+      headers: this.headers,
+      withCredentials: true,
+    });
+  }
+
   get headers(): HttpHeaders {
     const headersConfig = {
       'Content-Type': 'application/json,',

@@ -16,7 +16,7 @@
     <!-- Service Date Column -->
     <ng-container matColumnDef="serviceDate">
       <th mat-header-cell *matHeaderCellDef>Service Date</th>
-      <td mat-cell *matCellDef="let car">{{ car.serviceDate }}</td>
+      <td mat-cell *matCellDef="let car">{{ car.serviceDate | date: 'short' }}</td>
     </ng-container>
 
     <!-- Model Column -->
@@ -39,4 +39,6 @@
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of cars"> </mat-paginator>
+
+  <button mat-icon-button color="primary" style="width: 150px" (click)="saveAllCars()">save</button>
 </div>

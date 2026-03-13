@@ -17,6 +17,9 @@ import { CarDialogComponent } from './feature-car-edit/update-car.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CarsListStore } from '@realworld/car/data-access/cars-list.store';
 import { Car } from '@realworld/core/api-types/src/lib/car';
+import { DatePipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button'; // For mat-raised-button
+import { MatIconModule } from '@angular/material/icon';
 
 export interface CarData {
   id: number;
@@ -29,7 +32,7 @@ export interface CarData {
   selector: 'cdt-car',
   templateUrl: './car.component.html',
   styleUrls: ['./car.component.css'],
-  imports: [MatTableModule, MatPaginatorModule, Field],
+  imports: [MatTableModule, MatPaginatorModule, Field, DatePipe],
 })
 export class CarComponent implements OnInit {
   private dialog = inject(MatDialog);
@@ -39,7 +42,7 @@ export class CarComponent implements OnInit {
   constructor() {
     effect(() => {
       if (this.updateDate()) {
-        this.carsListStore.loadCars('d')
+        this.carsListStore.loadCars('d');
         const allCarsArray: Car[] = this.carsListStore.cars.entities();
         this.dataSource.set(new MatTableDataSource<CarData>(allCarsArray));
       }
@@ -69,6 +72,15 @@ export class CarComponent implements OnInit {
     console.log('btton');
     //this.dataSource.set(new MatTableDataSource<CarData>(CAR_DATA));
     this.updateDate.set(true);
+  }
+
+  saveAllCars() {
+    // 1. Get the current data array from the Signal's DataSource
+    const allCars: CarData[] = this.dataSource().data;
+
+    this.carsListStore.saveCars(allCars);
+
+    this.dataSource.set(new MatTableDataSource<CarData>(allCars));
   }
 
   deleteCar(car: string) {
@@ -122,19 +134,6 @@ export class CarComponent implements OnInit {
         // 4. Update the Signal so the template refreshes
         this.dataSource.set(table);
       }
-    });
-  }
-
-  private updateCarInList(updatedCar: CarData): void {
-    this.dataSource.update((table) => {
-      // 1. Create a NEW array (Immutability is key for Change Detection)
-      const newData = table.data.map((item) => (item.id === updatedCar.id ? { ...item, ...updatedCar } : item));
-
-      // 2. Update the data property of the existing DataSource
-      table.data = newData;
-
-      // 3. Return the table instance so the Signal notifies the UI
-      return table;
     });
   }
 }

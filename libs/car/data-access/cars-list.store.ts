@@ -14,21 +14,20 @@ export const CarsListStore = signalStore(
   withState<CarsListState>(carsListInitialState),
 
   withMethods((store, carsService = inject(CarsService)) => ({
+    // Method to Load Cars
     loadCars: rxMethod<string>(
       pipe(
         tap(() => setLoading('getCars')),
-        concatMap((listConfig) =>
+        concatMap(() =>
           carsService.findAllCars().pipe(
             tapResponse({
-              next: (carsArray: Car[] ) =>
-              {
+              next: (carsArray: Car[]) => {
                 patchState(store, {
-                  cars: {
-                    entities: carsArray,
-                  },
+                  cars: { entities: carsArray },
                   ...setLoaded('getCars'),
-                })},
-              error: (error) => {
+                });
+              },
+              error: () => {
                 patchState(store, {
                   ...carsListInitialState,
                   ...setLoaded('getCars'),
@@ -39,6 +38,30 @@ export const CarsListStore = signalStore(
         ),
       ),
     ),
+
+    saveCars: rxMethod<Car[]>(
+      pipe(
+        tap(() => setLoading('saveCars')),
+        concatMap((carsArray) =>
+          carsService.saveCars(carsArray).pipe(
+            tapResponse({
+              next: (updatedCars: Car[]) => {
+                patchState(store, {
+                  cars: { entities: updatedCars },
+                  ...setLoaded('saveCars'),
+                });
+              },
+              error: (error) => {
+                console.error('Save failed', error);
+              },
+            }),
+          ),
+        ),
+      ),
+    ),
   })),
+
+  // Separate call states for loading and saving
   withCallState({ collection: 'getCars' }),
+  withCallState({ collection: 'saveCars' }),
 );

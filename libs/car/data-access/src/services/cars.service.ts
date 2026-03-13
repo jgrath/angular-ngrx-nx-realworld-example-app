@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiService } from '../../../../core/http-client/src';
 import { Observable, of } from 'rxjs';
+import { CarApiService } from '../../../../core/http-client/src/lib/car.api.service';
 import { Article } from '../../../../core/api-types/src';
 import { Car } from '../../../../core/api-types/src/lib/car';
 
 @Injectable({ providedIn: 'root' })
 export class CarsService {
-  private readonly apiService = inject(ApiService);
+  private readonly carApiService = inject(CarApiService);
 
   CAR_DATA: Car[] = [
     { id: 1, brand: 'Tesla', model: 'Model 3', serviceDate: '2026-03-19T13:23' },
@@ -20,7 +21,11 @@ export class CarsService {
   ];
 
   findAllCars(): Observable<Car[]> {
-    return of([{ id: 1, serviceDate: '2026-03-11T15:04:14.4249535+00:00', brand: 'Tesla', model: 'Model 3' }]);
-    //return this.apiService.get('/cars');
+    // return of([{ id: 1, serviceDate: '2026-03-11T15:04:14.4249535+00:00', brand: 'Tesla', model: 'Model 3' }]);
+    return this.carApiService.get('/cars');
+  }
+
+  saveCars(cars: Car[]): Observable<Car[]> {
+    return this.carApiService.post<Car[], Car[]>('/cars/bulk-update', cars);
   }
 }

@@ -21,7 +21,9 @@ export class CarsService {
   ];
 
   findAllCars(): Observable<Car[]> {
-     return of([{ id: 1, serviceDate: '2026-03-11T15:04:14.4249535+00:00', brand: 'Tesla', model: 'Model 3' }]);
+     return of([
+       { id: 1, serviceDate: '2026-03-11T15:04:14.4249535+00:00', brand: 'Tesla', model: 'Model 3' },
+     ]);
     //return this.carApiService.get('/cars');
   }
 

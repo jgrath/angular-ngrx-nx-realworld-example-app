@@ -41,11 +41,8 @@ export class CarComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      if (this.updateDate()) {
-        this.carsListStore.loadCars('d');
         const allCarsArray: Car[] = this.carsListStore.cars.entities();
         this.dataSource.set(new MatTableDataSource<CarData>(allCarsArray));
-      }
     });
   }
 
@@ -64,7 +61,6 @@ export class CarComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // Paginator is guaranteed to be available here, but not in ngOnInit
     this.dataSource().paginator = this.paginator();
   }
 
@@ -114,25 +110,20 @@ export class CarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Handle the saved data (e.g., update your Signal or DataSource)
         console.log('The dialog was closed with:', result);
-        const table = this.dataSource();
-        // 2. Find and update the specific car
-        // Filter
+        // const table = this.dataSource();
+        // const updatedArray = table.data.map((item) => {
+        //   if (item.id === result.id) {
+        //     return { ...item, ...result };
+        //   }
+        //   return item;
+        // });
+        //
+        // table.data = updatedArray;
 
-        const updatedArray = table.data.map((item) => {
-          if (item.id === result.id) {
-            // Merge the old item with the new result data
-            return { ...item, ...result };
-          }
-          return item;
-        });
+        this.carsListStore.updateCarInState(result);
 
-        // 3. Update the data property of the existing DataSource
-        table.data = updatedArray;
-
-        // 4. Update the Signal so the template refreshes
-        this.dataSource.set(table);
+        //this.dataSource.set(table);
       }
     });
   }

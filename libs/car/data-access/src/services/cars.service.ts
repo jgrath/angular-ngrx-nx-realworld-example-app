@@ -21,7 +21,8 @@ export class CarsService {
   ];
 
   findAllCars(): Observable<Car[]> {
-     return of([
+    console.log('inside findAllCars()');
+    return of([
        { id: 1, serviceDate: '2026-03-16T11:33:15.3338168+00:00', brand: 'Tesla4', model: 'Model 3' },
        { id: 2, serviceDate: '2026-03-16T11:33:15.3338199+00:00', brand: 'BMW', model: 'X5' },
        { id: 3, serviceDate: '2026-03-16T11:33:15.3338201+00:00', brand: 'Ford', model: 'Mustang' },

@@ -14,7 +14,6 @@ export const CarsListStore = signalStore(
   withState<CarsListState>(carsListInitialState),
 
   withMethods((store, carsService = inject(CarsService)) => ({
-    // Method to Load Cars
     loadCars: rxMethod<string>(
       pipe(
         tap(() => setLoading('getCars')),
@@ -38,7 +37,13 @@ export const CarsListStore = signalStore(
         ),
       ),
     ),
-
+    updateCarInState: (updatedCar: Car) => {
+      patchState(store, {
+        cars: {
+          entities: store.cars.entities().map((c) => (c.id === updatedCar.id ? updatedCar : c)),
+        },
+      });
+    },
     saveCars: rxMethod<Car[]>(
       pipe(
         tap(() => setLoading('saveCars')),
@@ -61,7 +66,7 @@ export const CarsListStore = signalStore(
     ),
   })),
 
-  // Separate call states for loading and saving
   withCallState({ collection: 'getCars' }),
   withCallState({ collection: 'saveCars' }),
+
 );

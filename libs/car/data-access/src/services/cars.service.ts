@@ -22,7 +22,12 @@ export class CarsService {
 
   findAllCars(): Observable<Car[]> {
      return of([
-       { id: 1, serviceDate: '2026-03-11T15:04:14.4249535+00:00', brand: 'Tesla', model: 'Model 3' },
+       { id: 1, serviceDate: '2026-03-16T11:33:15.3338168+00:00', brand: 'Tesla4', model: 'Model 3' },
+       { id: 2, serviceDate: '2026-03-16T11:33:15.3338199+00:00', brand: 'BMW', model: 'X5' },
+       { id: 3, serviceDate: '2026-03-16T11:33:15.3338201+00:00', brand: 'Ford', model: 'Mustang' },
+       { id: 4, serviceDate: '2026-03-16T11:33:15.3338203+00:00', brand: 'Volvo', model: 'Volvo 5' },
+       { id: 5, serviceDate: '2026-03-16T11:33:15.3338205+00:00', brand: 'Mercedes', model: 'TR76' },
+       { id: 6, serviceDate: '2026-03-16T11:33:15.333821+00:00', brand: 'Toyota', model: '88' },
      ]);
     //return this.carApiService.get('/cars');
   }

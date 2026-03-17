@@ -39,8 +39,20 @@ export class CarDialogComponent {
   });
 
   ngOnInit() {
+    const now = new Date();
+
+    // Format to YYYY-MM-DDTHH:mm
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+
+    const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
     this.loginForm.brand().value.set(this.data.brand ?? '');
     this.loginForm.model().value.set(this.data.model ?? '');
+    this.loginForm.serviceDate().value.set(formattedDateTime);
   }
 
   onCancel(): void {

@@ -40,5 +40,7 @@
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of cars"> </mat-paginator>
 
-  <button mat-icon-button color="primary" style="width: 150px" (click)="saveAllCars()">save</button>
+  <div class="button-container">
+    <button mat-raised-button color="primary" style="width: 200px" (click)="saveAllCars()">Save</button>
+  </div>
 </div>

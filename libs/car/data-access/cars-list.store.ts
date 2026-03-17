@@ -44,6 +44,18 @@ export const CarsListStore = signalStore(
         },
       });
     },
+    updateAllCarsToToday: () => {
+      const todayStr = new Date().toISOString().slice(0, 16);
+
+      patchState(store, {
+        cars: {
+          entities: store.cars.entities().map((car) => ({
+            ...car,
+            serviceDate: todayStr,
+          })),
+        },
+      });
+    },
     saveCars: rxMethod<Car[]>(
       pipe(
         tap(() => setLoading('saveCars')),
@@ -68,5 +80,4 @@ export const CarsListStore = signalStore(
 
   withCallState({ collection: 'getCars' }),
   withCallState({ collection: 'saveCars' }),
-
 );

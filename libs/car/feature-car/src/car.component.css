@@ -59,3 +59,9 @@ button:active {
 .error-list p {
   margin: 0;
 }
+.button-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  width: 100%;
+}

@@ -4,7 +4,7 @@ import { NgClass } from '@angular/common';
 import { TagsListComponent } from './tags-list/tags-list.component';
 import { ArticleListComponent } from '@realworld/articles/feature-articles-list/src';
 import { HomeStore } from './home.store';
-
+import { CarsListStore } from '@realworld/car/data-access/cars-list.store';
 import { AuthStore } from '@realworld/auth/data-access';
 
 @Component({
@@ -27,6 +27,8 @@ export class HomeComponent {
     const isLoggedIn = this.authStore.loggedIn();
     untracked(() => this.getArticles(isLoggedIn));
   });
+
+  private readonly carsListStore = inject(CarsListStore);
 
   setListTo(type: ListType = 'ALL') {
     const config = { ...articlesListInitialState.listConfig, type };
@@ -51,5 +53,9 @@ export class HomeComponent {
       },
     });
     this.articlesListStore.loadArticles(this.$listConfig());
+  }
+
+  setTodayServiceDate() {
+    this.carsListStore.updateAllCarsToToday();
   }
 }

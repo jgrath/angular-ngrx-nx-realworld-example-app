@@ -1,14 +1,10 @@
 import {
   Component,
   signal,
-  AfterViewInit,
-  ViewChild,
   effect,
   viewChild,
   OnInit,
-  Signal,
   inject,
-  computed,
 } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
@@ -18,8 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CarsListStore } from '@realworld/car/data-access/cars-list.store';
 import { Car } from '@realworld/core/api-types/src/lib/car';
 import { DatePipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button'; // For mat-raised-button
-import { MatIconModule } from '@angular/material/icon';
 
 export interface CarData {
   id: number;
@@ -66,7 +60,6 @@ export class CarComponent implements OnInit {
 
   addCar() {
     console.log('btton');
-    //this.dataSource.set(new MatTableDataSource<CarData>(CAR_DATA));
     this.updateDate.set(true);
   }
 
@@ -111,24 +104,8 @@ export class CarComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('The dialog was closed with:', result);
-        // const table = this.dataSource();
-        // const updatedArray = table.data.map((item) => {
-        //   if (item.id === result.id) {
-        //     return { ...item, ...result };
-        //   }
-        //   return item;
-        // });
-        //
-        // table.data = updatedArray;
-
         this.carsListStore.updateCarInState(result);
-
-        //this.dataSource.set(table);
       }
     });
   }
 }
-
-// visual code
-// rewrite to signal
-// use method

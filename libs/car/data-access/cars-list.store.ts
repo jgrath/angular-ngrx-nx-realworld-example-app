@@ -22,7 +22,7 @@ export const CarsListStore = signalStore(
             tapResponse({
               next: (carsArray: Car[]) => {
                 patchState(store, {
-                  cars: { entities: carsArray },
+                  cars: { entities: carsArray, lastUpdatedTime: new Date().toISOString() },
                   ...setLoaded('getCars'),
                 });
               },
@@ -40,6 +40,7 @@ export const CarsListStore = signalStore(
     updateCarInState: (updatedCar: Car) => {
       patchState(store, {
         cars: {
+          ...store.cars(), // Spreads current entities and lastUpdatedTime
           entities: store.cars.entities().map((c) => (c.id === updatedCar.id ? updatedCar : c)),
         },
       });
@@ -49,6 +50,7 @@ export const CarsListStore = signalStore(
 
       patchState(store, {
         cars: {
+          ...store.cars(), // Spreads current state to keep lastUpdatedTime
           entities: store.cars.entities().map((car) => ({
             ...car,
             serviceDate: todayStr,
@@ -64,7 +66,7 @@ export const CarsListStore = signalStore(
             tapResponse({
               next: (updatedCars: Car[]) => {
                 patchState(store, {
-                  cars: { entities: updatedCars },
+                  cars: { entities: updatedCars, lastUpdatedTime: new Date().toISOString() },
                   ...setLoaded('saveCars'),
                 });
               },

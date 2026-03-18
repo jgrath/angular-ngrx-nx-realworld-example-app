@@ -5,11 +5,13 @@ export interface CarsListState {
 }
 
 export interface Cars {
-  entities: Car[];
+  entities: Car[],
+  lastUpdatedTime: string;
 }
 
 export const carsListInitialState: CarsListState = {
   cars: {
     entities: [],
+    lastUpdatedTime: '',
   },
 };

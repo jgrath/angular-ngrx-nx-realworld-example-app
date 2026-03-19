@@ -19,11 +19,13 @@ interface LoginData {
 })
 export class CarDialogComponent {
   @Input() bannerText: string;
+  buttonText: string = 'Add New';
   constructor(
     public dialogRef: MatDialogRef<CarDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, // Receives the 'car' object
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.bannerText = 'Edit car details';
+    this.bannerText = this.data?.id ? 'Edit Car Details' : 'Add New Car';
+    this.buttonText = this.data?.id ? 'Update' : 'Add New';
   }
 
   loginModel = signal<LoginData>({
@@ -42,7 +44,7 @@ export class CarDialogComponent {
     const rawDate = new Date(this.data.serviceDate);
     const formattedDate = rawDate.toISOString().substring(0, 16); // Results in "YYYY-MM-DDTHH:mm"
 
-    this.loginForm.brand().value.set(this.data.brand ?? 'fdsfdsf');
+    this.loginForm.brand().value.set(this.data.brand ?? '');
     this.loginForm.model().value.set(this.data.model ?? '');
     this.loginForm.serviceDate().value.set(formattedDate);
   }

@@ -1,11 +1,4 @@
-import {
-  Component,
-  signal,
-  effect,
-  viewChild,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, signal, effect, viewChild, OnInit, inject } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { email, form, Field, required } from '@angular/forms/signals';
@@ -35,8 +28,8 @@ export class CarComponent implements OnInit {
 
   constructor() {
     effect(() => {
-        const allCarsArray: Car[] = this.carsListStore.cars.entities();
-        this.dataSource.set(new MatTableDataSource<CarData>(allCarsArray));
+      const allCarsArray: Car[] = this.carsListStore.cars.entities();
+      this.dataSource.set(new MatTableDataSource<CarData>(allCarsArray));
     });
   }
 
@@ -72,8 +65,20 @@ export class CarComponent implements OnInit {
     this.dataSource.set(new MatTableDataSource<CarData>(allCars));
   }
 
-  deleteCar(car: string) {
-    console.log(car);
+  addNewCar(newCar: CarData) {
+    // 1. In SignalStore, cars() returns the current state of that slice.
+    const itemsInArray = this.carsListStore.cars().entities.length;
+
+    // 4. Calculate Max ID (ensuring numeric conversion)
+    const maxId = itemsInArray > 0 ? itemsInArray : 0;
+
+    const carToSave = {
+      ...newCar,
+      id: maxId + 1,
+    };
+
+    // 5. Update Store
+    this.carsListStore.addCar(carToSave);
   }
 
   editCarBrand(car: CarData, newBrand: string) {
@@ -94,18 +99,30 @@ export class CarComponent implements OnInit {
     console.log('Updated car:', car.id, 'to brand:', car.model);
   }
 
-  openCarDialog(car?: any): void {
+  openCarDialog(car?: CarData): void {
+    const isEdit = !!car?.id;
+
     const dialogRef = this.dialog.open(CarDialogComponent, {
       width: '500px',
       height: '430px',
-      data: car ? { ...car, bannerText: 'Edit Car Details' } : null,
+      data: isEdit
+        ? {
+            ...car,
+            bannerText: 'Edit Car Details',
+            buttonText: 'Update', // Set text for editing
+          }
+        : {
+            brand: '',
+            model: '',
+            serviceDate: '',
+            bannerText: 'Add New Car',
+            buttonText: 'Add', // Set text for adding
+          },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log('The dialog was closed with:', result);
-        this.carsListStore.updateCarInState(result);
-      }
+      if (!result) return;
+      isEdit ? this.carsListStore.updateCarInState(result) : this.addNewCar(result);
     });
   }
 }

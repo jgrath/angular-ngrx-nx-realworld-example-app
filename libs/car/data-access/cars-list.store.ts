@@ -58,6 +58,14 @@ export const CarsListStore = signalStore(
         },
       });
     },
+    addCar: (newCar: Car) => {
+      patchState(store, {
+        cars: {
+          ...store.cars(), // Keep lastUpdatedTime
+          entities: [...store.cars.entities(), newCar], // Add new car to the end of the list
+        },
+      });
+    },
     saveCars: rxMethod<Car[]>(
       pipe(
         tap(() => setLoading('saveCars')),

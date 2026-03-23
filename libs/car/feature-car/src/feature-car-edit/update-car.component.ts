@@ -8,7 +8,7 @@ interface LoginData {
   brand: string;
   model: string;
   serviceDate: string;
-  yearBuilt: string | null; // Allow null
+  yearBuilt: string;
   country: string | null; // Allow null
 }
 
@@ -24,7 +24,7 @@ export class CarDialogComponent implements OnInit {
   buttonText: string = 'Add New';
 
   // Extract lookup arrays passed from CarComponent
-  years: number[] = this.data.yearBuiltOptions || [];
+  years: number[] = this.data.yearBuiltOptions;
   countries: { abbreviation: string; country: string }[] = this.data.countriesOptions || [];
 
   constructor(
@@ -40,7 +40,8 @@ export class CarDialogComponent implements OnInit {
     brand: '',
     model: '',
     serviceDate: '',
-    yearBuilt: this.data.yearBuilt?.toString() ?? null, // Default to null
+    //yearBuilt: this.data.yearBuilt?.toString() ?? null, // Default to null
+    yearBuilt: this.data.yearBuilt,
     country: this.data.country ?? null,
   });
 
@@ -61,8 +62,9 @@ export class CarDialogComponent implements OnInit {
     this.loginForm.serviceDate().value.set(formattedDate);
 
     // Set initial values for the dropdowns
-    this.loginForm.yearBuilt().value.set(this.data.yearBuilt?.toString() ?? null);
+    this.loginForm.yearBuilt().value.set(this.data.yearBuilt);
     this.loginForm.country().value.set(this.data.country ?? null);
+
   }
 
   onCancel(): void {

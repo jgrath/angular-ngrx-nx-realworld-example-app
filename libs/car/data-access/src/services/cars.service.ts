@@ -62,7 +62,7 @@ export class CarsService {
   // Method to fetch the lookup/dropdown data
   getCarData(): Observable<CarData> {
     return of({
-      yearBuiltList: [2020, 2021, 2022, 2023, 2024],
+      yearBuiltList: [2020, 2021, 2022, 2023, 2024, 2025],
       countriesList: [
         { abbreviation: 'US', country: 'United States' },
         { abbreviation: 'DE', country: 'Germany' },

@@ -47,6 +47,7 @@ export class CarComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateDate.set(true);
+    this.carsListStore.getAllCarData();
   }
 
   ngAfterViewInit() {
@@ -109,11 +110,15 @@ export class CarComponent implements OnInit {
       height: '430px',
       data: isEdit
         ? {
+            yearBuiltOptions: this.carsListStore.yearBuilt(),
+            countriesOptions: this.carsListStore.countries(),
             ...car,
             bannerText: 'Edit Car Details',
             buttonText: 'Update', // Set text for editing
           }
         : {
+            yearBuiltOptions: this.carsListStore.yearBuilt(),
+            countriesOptions: this.carsListStore.countries(),
             brand: '',
             model: '',
             serviceDate: '',

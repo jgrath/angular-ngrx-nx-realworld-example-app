@@ -3,6 +3,7 @@
 </div>
 <mat-dialog-content>
   <form (submit)="onSubmit($event)">
+    <!-- Brand Field -->
     <div>
       <label>
         Brand:
@@ -16,6 +17,8 @@
       </ul>
       }
     </div>
+
+    <!-- Model Field -->
     <div>
       <label>
         Model:
@@ -29,10 +32,25 @@
       </ul>
       }
     </div>
+
+    <!--  <select [field]="loginForm.yearBuilt">
+      <option [value]="null">Select Year</option>
+      @for (year of years; track year) {
+      <option [value]="year.toString()">{{ year }}</option>
+      }
+    </select>
+
+    <select [field]="loginForm.country">
+      <option [value]="null">Select Country</option>
+      @for (c of countries; track c.abbreviation) {
+      <option [value]="c.abbreviation">{{ c.country }}</option>
+      }
+    </select>-->
+
+    <!-- Service Date Field -->
     <div>
       <label>
         Service Date & Time:
-        <!-- Use datetime-local for both date and time selection -->
         <input type="datetime-local" [field]="loginForm.serviceDate" />
       </label>
       @if (loginForm.serviceDate().touched() && loginForm.serviceDate().invalid()) {
@@ -43,9 +61,18 @@
       </ul>
       }
     </div>
+
     <mat-dialog-actions align="end">
       <button mat-button type="button" (click)="onCancel()">Cancel</button>
-      <button style="margin-left: 10px" mat-raised-button color="primary" type="button" (click)="onUpdate()">
+      <button
+        style="margin-left: 10px"
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onUpdate()"
+        [disabled]="loginForm().invalid()"
+      >
+        <!-- Added parentheses here -->
         {{ buttonText }}
       </button>
     </mat-dialog-actions>

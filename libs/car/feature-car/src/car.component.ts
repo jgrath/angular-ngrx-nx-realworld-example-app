@@ -122,9 +122,6 @@ export class CarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       const isEdit = !!car?.id;
-       This is the problem:
-        isEdit must be inside subscribe
-      or there be be a wait lock
       if (!result) return;
       isEdit ? this.carsListStore.updateCarInState(result) : this.addNewCar(result);
     });

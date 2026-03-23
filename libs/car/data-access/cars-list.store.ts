@@ -6,7 +6,7 @@ import { CarsService } from './src/services/cars.service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { concatMap, pipe, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
-import { Car } from '../../core/api-types/src/lib/car';
+import { Car, CarDataInfo } from '../../core/api-types/src/lib/car';
 
 export const CarsListStore = signalStore(
   { providedIn: 'root' },
@@ -80,6 +80,27 @@ export const CarsListStore = signalStore(
               },
               error: (error) => {
                 console.error('Save failed', error);
+              },
+            }),
+          ),
+        ),
+      ),
+    ),
+    getAllCarData: rxMethod<void>(
+      pipe(
+        tap(() => setLoading('getCarData')), // Assuming you add this to withCallState below
+        concatMap(() =>
+          carsService.getCarData().pipe(
+            tapResponse({
+              next: (CarDataInfo) => {
+                patchState(store, {
+                  yearBuilt: CarDataInfo.yearBuiltList,
+                  countries: CarDataInfo.countriesList,
+                  ...setLoaded('getCarData'),
+                });
+              },
+              error: (error) => {
+                console.error('Failed to load car data', error);
               },
             }),
           ),

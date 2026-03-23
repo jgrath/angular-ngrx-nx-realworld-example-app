@@ -13,6 +13,8 @@ export interface CarData {
   brand: string;
   model: string;
   serviceDate: string;
+  yearBuilt: number;
+  country: string;
 }
 
 @Component({
@@ -37,7 +39,7 @@ export class CarComponent implements OnInit {
     event.preventDefault();
   }
 
-  displayedColumns: string[] = ['id', 'brand', 'model', 'actions', 'serviceDate'];
+  displayedColumns: string[] = ['id', 'brand', 'model', 'yearBuilt', 'country', 'serviceDate', 'actions'];
 
   readonly dataSource = signal(new MatTableDataSource<CarData>([]));
   readonly paginator = viewChild(MatPaginator);

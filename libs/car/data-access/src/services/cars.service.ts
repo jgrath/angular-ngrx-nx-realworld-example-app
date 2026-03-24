@@ -78,10 +78,12 @@ export class CarsService {
         { abbreviation: 'SE', country: 'Sweden' },
       ],
     });
+    // return this.carApiService.ad('/cars/options');
   }
 
   findAllCars(): Observable<Car[]> {
-    return of(this.CAR_DATA); // Simplified to use the array defined above
+    return of(this.CAR_DATA);
+    // return this.carApiService.get('/cars');
   }
 
   saveCars(cars: Car[]): Observable<Car[]> {

@@ -15,6 +15,14 @@ export class CarApiService {
     });
   }
 
+    getCarOptions<T>(url: string, params: HttpParams = new HttpParams()): Observable<T> {
+    return this.http.get<T>(`${this.car_api_url}${url}`, {
+      headers: this.headers,
+      params,
+      withCredentials: true,
+    });
+  }
+
     post<T, D>(url: string, data: D): Observable<T> {
     return this.http.post<T>(`${this.car_api_url}${url}`, data, {
       headers: this.headers,

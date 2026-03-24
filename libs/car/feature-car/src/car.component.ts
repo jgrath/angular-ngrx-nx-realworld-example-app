@@ -127,16 +127,16 @@ export class CarComponent implements OnInit {
         : {
             yearBuiltOptions: this.carsListStore.yearBuilt(),
             countriesOptions: this.carsListStore.countries(),
+            yearBuilt: '',
             brand: '',
             model: '',
             serviceDate: '',
             bannerText: 'Add New Car',
-            buttonText: 'Add', // Set text for adding
+            buttonText: 'Add',
           },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       const isEdit = !!car?.id;
       if (!result) return;
       isEdit ? this.carsListStore.updateCarInState(result) : this.addNewCar(result);

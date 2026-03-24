@@ -60,8 +60,8 @@ export class CarDialogComponent implements OnInit {
     this.carForm.serviceDate().value.set(formattedDate);
 
     // Set initial values for the dropdowns
-    this.carForm.yearBuilt().value.set(this.data.yearBuilt);
-    this.carForm.country().value.set(this.data.country ?? null);
+    //this.carForm.yearBuilt().value.set(this.data.yearBuilt);
+    //this.carForm.country().value.set(this.data.country ?? null);
   }
 
   onCancel(): void {

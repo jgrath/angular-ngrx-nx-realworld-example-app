@@ -3,13 +3,13 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/materia
 import { form, Field, required } from '@angular/forms/signals';
 import { FeatureCarComponent } from './feature-car-banner/feature-car-banner-header';
 
-interface LoginData {
+interface CarFormData {
   id: number;
   brand: string;
   model: string;
   serviceDate: string;
   yearBuilt: string;
-  country: string | null; // Allow null
+  country: string;
 }
 
 @Component({
@@ -23,7 +23,6 @@ export class CarDialogComponent implements OnInit {
   @Input() bannerText: string;
   buttonText: string = 'Add New';
 
-  // Extract lookup arrays passed from CarComponent
   years: number[] = this.data.yearBuiltOptions;
   countries: { abbreviation: string; country: string }[] = this.data.countriesOptions || [];
 
@@ -35,17 +34,16 @@ export class CarDialogComponent implements OnInit {
     this.buttonText = this.data?.id ? 'Update' : 'Add New';
   }
 
-  loginModel = signal<LoginData>({
+  carModel = signal<CarFormData>({
     id: this.data.id || 0,
     brand: '',
     model: '',
     serviceDate: '',
-    //yearBuilt: this.data.yearBuilt?.toString() ?? null, // Default to null
     yearBuilt: this.data.yearBuilt,
-    country: this.data.country ?? null,
+    country: this.data.country,
   });
 
-  loginForm = form(this.loginModel, (schemaPath) => {
+  carForm = form(this.carModel, (schemaPath) => {
     required(schemaPath.brand, { message: 'Brand is required' });
     required(schemaPath.model, { message: 'Model is required' });
     required(schemaPath.yearBuilt, { message: 'Year is required' });
@@ -57,14 +55,13 @@ export class CarDialogComponent implements OnInit {
     const rawDate = this.data.serviceDate ? new Date(this.data.serviceDate) : new Date();
     const formattedDate = rawDate.toISOString().substring(0, 16);
 
-    this.loginForm.brand().value.set(this.data.brand ?? '');
-    this.loginForm.model().value.set(this.data.model ?? '');
-    this.loginForm.serviceDate().value.set(formattedDate);
+    this.carForm.brand().value.set(this.data.brand ?? '');
+    this.carForm.model().value.set(this.data.model ?? '');
+    this.carForm.serviceDate().value.set(formattedDate);
 
     // Set initial values for the dropdowns
-    this.loginForm.yearBuilt().value.set(this.data.yearBuilt);
-    this.loginForm.country().value.set(this.data.country ?? null);
-
+    this.carForm.yearBuilt().value.set(this.data.yearBuilt);
+    this.carForm.country().value.set(this.data.country ?? null);
   }
 
   onCancel(): void {
@@ -72,10 +69,10 @@ export class CarDialogComponent implements OnInit {
   }
 
   onUpdate(): void {
-    //  if (this.loginForm.invalid()) {
-    //  return;
+    //if (this.carForm.invalid()) {
+    // return;
     // }
-    const updatedData = this.loginForm().value();
+    const updatedData = this.carForm().value();
     this.dialogRef.close(updatedData);
   }
 

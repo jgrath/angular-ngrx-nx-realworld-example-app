@@ -25,6 +25,7 @@ export interface CarData {
 })
 export class CarComponent implements OnInit {
   private dialog = inject(MatDialog);
+  readonly countries = signal<string[]>([]);
 
   private readonly carsListStore = inject(CarsListStore);
 
@@ -48,6 +49,13 @@ export class CarComponent implements OnInit {
   ngOnInit(): void {
     this.updateDate.set(true);
     this.carsListStore.getAllCarData();
+  }
+
+  getCountryName(abbreviation: string): string {
+    const options = this.carsListStore.countries();
+    const match = options.find((obj) => obj.abbreviation === abbreviation);
+
+    return match?.country ?? abbreviation;
   }
 
   ngAfterViewInit() {
@@ -107,7 +115,7 @@ export class CarComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CarDialogComponent, {
       width: '500px',
-      height: '430px',
+      height: '600px',
       data: isEdit
         ? {
             yearBuiltOptions: this.carsListStore.yearBuilt(),
@@ -128,6 +136,7 @@ export class CarComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      debugger;
       const isEdit = !!car?.id;
       if (!result) return;
       isEdit ? this.carsListStore.updateCarInState(result) : this.addNewCar(result);

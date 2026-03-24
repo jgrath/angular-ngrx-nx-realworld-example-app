@@ -7,11 +7,11 @@
     <div>
       <label>
         Brand:
-        <input type="brand" [field]="loginForm.brand" />
+        <input type="brand" [field]="carForm.brand" />
       </label>
-      @if (loginForm.brand().touched() && loginForm.brand().invalid()) {
+      @if (carForm.brand().touched() && carForm.brand().invalid()) {
       <ul class="error-list">
-        @for (error of loginForm.brand().errors(); track error) {
+        @for (error of carForm.brand().errors(); track error) {
         <li>{{ error.message }}</li>
         }
       </ul>
@@ -22,41 +22,46 @@
     <div>
       <label>
         Model:
-        <input type="Model" [field]="loginForm.model" />
+        <input type="Model" [field]="carForm.model" />
       </label>
-      @if (loginForm.model().touched() && loginForm.model().invalid()) {
+      @if (carForm.model().touched() && carForm.model().invalid()) {
       <ul class="error-list">
-        @for (error of loginForm.model().errors(); track error) {
+        @for (error of carForm.model().errors(); track error) {
         <li>{{ error.message }}</li>
         }
       </ul>
       }
     </div>
 
-    <select [field]="loginForm.yearBuilt">
-      <option [value]="null">Select Year</option>
-      @for (year of years; track year) {
+    <div>
+      <label> Year Built: </label>
+      <select [field]="carForm.yearBuilt">
+        <option [value]="null">Select Year</option>
+        @for (year of years; track year) {
         <option [value]="year.toString()">{{ year }}</option>
-      }
-    </select>
+        }
+      </select>
+    </div>
 
-    <!--
-        <select [field]="loginForm.country">
-          <option [value]="null">Select Country</option>
-          @for (c of countries; track c.abbreviation) {
-          <option [value]="c.abbreviation">{{ c.country }}</option>
-          }
-        </select>-->
+    <div>
+      <label> Country</label>
+      <select [field]="carForm.country">
+        <option [value]="null">Select Country</option>
+        @for (c of countries; track c.abbreviation) {
+        <option [value]="c.abbreviation.toString()">{{ c.country }}</option>
+        }
+      </select>
+    </div>
 
     <!-- Service Date Field -->
     <div>
       <label>
         Service Date & Time:
-        <input type="datetime-local" [field]="loginForm.serviceDate" />
+        <input type="datetime-local" [field]="carForm.serviceDate" />
       </label>
-      @if (loginForm.serviceDate().touched() && loginForm.serviceDate().invalid()) {
+      @if (carForm.serviceDate().touched() && carForm.serviceDate().invalid()) {
       <ul class="error-list">
-        @for (error of loginForm.serviceDate().errors(); track error) {
+        @for (error of carForm.serviceDate().errors(); track error) {
         <li>{{ error.message }}</li>
         }
       </ul>
@@ -71,7 +76,7 @@
         color="primary"
         type="button"
         (click)="onUpdate()"
-        [disabled]="loginForm().invalid()"
+        [disabled]="carForm().invalid()"
       >
         <!-- Added parentheses here -->
         {{ buttonText }}

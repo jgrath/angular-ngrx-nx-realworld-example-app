@@ -21,8 +21,14 @@ export const CarsListStore = signalStore(
           carsService.findAllCars().pipe(
             tapResponse({
               next: (carsArray: Car[]) => {
+                //map['BMW', 'Germany']
+                const countryCodes = carsService.getCountryCodeArray();
+                foreach(car: carsArray){
+                  const country = countryCodes[car.brand];
+
+                }
                 patchState(store, {
-                  cars: { entities: carsArray, lastUpdatedTime: new Date().toISOString() },
+                  cars: { entities: carsArrayWithCountries, lastUpdatedTime: new Date().toISOString() },
                   ...setLoaded('getCars'),
                 });
               },

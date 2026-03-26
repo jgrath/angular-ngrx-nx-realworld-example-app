@@ -81,6 +81,10 @@ export class CarsService {
     // return this.carApiService.getCarOptions('/cars/options');
   }
 
+  getCountryCodeArray():[string, string]{
+    return Map("BMW", 'Germany')
+  }
+
   findAllCars(): Observable<Car[]> {
     return of(this.CAR_DATA);
     // return this.carApiService.get('/cars');

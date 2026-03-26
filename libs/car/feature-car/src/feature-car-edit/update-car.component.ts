@@ -1,7 +1,8 @@
-import { Component, Inject, signal, Input, OnInit } from '@angular/core';
+import { Component, Inject, signal, Input, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { form, Field, required } from '@angular/forms/signals';
 import { FeatureCarComponent } from './feature-car-banner/feature-car-banner-header';
+import { CarsListStore } from '@realworld/car/data-access/cars-list.store';
 
 interface CarFormData {
   id: number;
@@ -22,9 +23,9 @@ interface CarFormData {
 export class CarDialogComponent implements OnInit {
   @Input() bannerText: string;
   buttonText: string = 'Add New';
-
-  years: number[] = this.data.yearBuiltOptions;
-  countries: { abbreviation: string; country: string }[] = this.data.countriesOptions || [];
+  private readonly carsListStore = inject(CarsListStore);
+  years: number[] = this.carsListStore.yearBuilt();
+  countries: { abbreviation: string; country: string }[] = this.carsListStore.countries();
 
   constructor(
     public dialogRef: MatDialogRef<CarDialogComponent>,
@@ -39,8 +40,8 @@ export class CarDialogComponent implements OnInit {
     brand: '',
     model: '',
     serviceDate: '',
-    yearBuilt: this.data.yearBuilt,
-    country: this.data.country,
+    yearBuilt: this.data.yearBuilt || '', // Only one 'yearBuilt' key allowed
+    country: this.data.country || '', // Only one 'country' key allowed
   });
 
   carForm = form(this.carModel, (schemaPath) => {

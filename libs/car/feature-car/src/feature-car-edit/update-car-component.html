@@ -36,22 +36,38 @@
     <div>
       <label> Year Built: </label>
       <select [field]="carForm.yearBuilt">
-        <option [value]="null">Select Year</option>
+        <option value="">Select Year</option>
+        <!-- Changed to empty string -->
         @for (year of years; track year) {
         <option [value]="year.toString()">{{ year }}</option>
         }
       </select>
+      @if (carForm.yearBuilt().touched() && carForm.yearBuilt().invalid()) {
+      <ul class="error-list">
+        @for (error of carForm.yearBuilt().errors(); track error) {
+        <li>{{ error.message }}</li>
+        }
+      </ul>
+      }
     </div>
 
-<!--    <div>-->
-<!--      <label> Country</label>-->
-<!--      <select [field]="carForm.country">-->
-<!--        <option [value]="null">Select Country</option>-->
-<!--        @for (c of countries; track c.abbreviation) {-->
-<!--        <option [value]="c.abbreviation.toString()">{{ c.country }}</option>-->
-<!--        }-->
-<!--      </select>-->
-<!--    </div>-->
+    <div>
+      <label> Country</label>
+      <select [field]="carForm.country">
+        <option value="">Select Country</option>
+        <!-- Changed to empty string -->
+        @for (c of countries; track c.abbreviation) {
+        <option [value]="c.abbreviation">{{ c.country }}</option>
+        }
+      </select>
+      @if (carForm.country().touched() && carForm.country().invalid()) {
+      <ul class="error-list">
+        @for (error of carForm.country().errors(); track error) {
+        <li>{{ error.message }}</li>
+        }
+      </ul>
+      }
+    </div>
 
     <!-- Service Date Field -->
     <div>

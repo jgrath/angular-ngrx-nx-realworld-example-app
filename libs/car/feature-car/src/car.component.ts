@@ -118,15 +118,11 @@ export class CarComponent implements OnInit {
       height: '600px',
       data: isEdit
         ? {
-            yearBuiltOptions: this.carsListStore.yearBuilt(),
-            countriesOptions: this.carsListStore.countries(),
             ...car,
             bannerText: 'Edit Car Details',
             buttonText: 'Update', // Set text for editing
           }
         : {
-            yearBuiltOptions: this.carsListStore.yearBuilt(),
-            countriesOptions: this.carsListStore.countries(),
             yearBuilt: '',
             brand: '',
             model: '',

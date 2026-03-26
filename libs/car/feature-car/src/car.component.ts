@@ -1,7 +1,7 @@
 import { Component, signal, effect, viewChild, OnInit, inject } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { email, form, Field, required } from '@angular/forms/signals';
+import { Field } from '@angular/forms/signals';
 import { CarDialogComponent } from './feature-car-edit/update-car.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CarsListStore } from '@realworld/car/data-access/cars-list.store';
@@ -32,7 +32,8 @@ export class CarComponent implements OnInit {
   constructor() {
     effect(() => {
       const allCarsArray: Car[] = this.carsListStore.cars.entities();
-      this.dataSource.set(new MatTableDataSource<CarData>(allCarsArray));
+      const currentDataSource = this.dataSource();
+      currentDataSource.data = allCarsArray as CarData[];
     });
   }
 
@@ -62,11 +63,6 @@ export class CarComponent implements OnInit {
     this.dataSource().paginator = this.paginator();
   }
 
-  addCar() {
-    console.log('btton');
-    this.updateDate.set(true);
-  }
-
   saveAllCars() {
     // 1. Get the current data array from the Signal's DataSource
     const allCars: CarData[] = this.dataSource().data;
@@ -93,18 +89,14 @@ export class CarComponent implements OnInit {
   }
 
   editCarBrand(car: CarData, newBrand: string) {
-    // 1. Get the current array from the signal's data source
     const currentData: MatTableDataSource<CarData, MatPaginator> = this.dataSource();
-    // 2. Find and update the specific car
-    // Filter
     const updatedData = currentData.data.map((item) => {
       if (item.id === car.id) {
-        return { ...item, brand: car.model }; // Create a new object with the updated brand
+        return { ...item, brand: car.model };
       }
       return item;
     });
 
-    // 3. Reassign the data to trigger the table refresh
     this.dataSource.set(new MatTableDataSource<CarData>(updatedData));
 
     console.log('Updated car:', car.id, 'to brand:', car.model);

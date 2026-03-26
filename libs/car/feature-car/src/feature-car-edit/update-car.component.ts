@@ -40,8 +40,8 @@ export class CarDialogComponent implements OnInit {
     brand: '',
     model: '',
     serviceDate: '',
-    yearBuilt: this.data.yearBuilt || '', // Only one 'yearBuilt' key allowed
-    country: this.data.country || '', // Only one 'country' key allowed
+    yearBuilt: this.data.yearBuilt || '',
+    country: this.data.country || '',
   });
 
   carForm = form(this.carModel, (schemaPath) => {
@@ -52,17 +52,12 @@ export class CarDialogComponent implements OnInit {
   });
 
   ngOnInit() {
-    // Check if serviceDate exists, otherwise use current date as fallback
     const rawDate = this.data.serviceDate ? new Date(this.data.serviceDate) : new Date();
     const formattedDate = rawDate.toISOString().substring(0, 16);
 
     this.carForm.brand().value.set(this.data.brand ?? '');
     this.carForm.model().value.set(this.data.model ?? '');
     this.carForm.serviceDate().value.set(formattedDate);
-
-    // Set initial values for the dropdowns
-    //this.carForm.yearBuilt().value.set(this.data.yearBuilt);
-    //this.carForm.country().value.set(this.data.country ?? null);
   }
 
   onCancel(): void {

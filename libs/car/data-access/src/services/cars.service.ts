@@ -84,7 +84,7 @@ export class CarsService {
   getCountryCodeArray(): [string, string][] {
     let countryCodes = new Map<string, string>();
     countryCodes.set('Tesla', 'US');
-    countryCodes.set('BMW', 'Germany');
+    countryCodes.set('BMW', 'DE');
     countryCodes.set('Ford', 'US');
     countryCodes.set('Volvo', 'SE');
     countryCodes.set('Land Rover', 'UK');

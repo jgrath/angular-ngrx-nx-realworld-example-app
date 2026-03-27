@@ -21,7 +21,7 @@ export class CarsService {
       model: 'Model 3',
       serviceDate: '2026-03-19T13:23',
       yearBuilt: 2022,
-      country: 'US',
+      country: '',
     },
     { id: 2, brand: 'BMW', model: 'X5', serviceDate: '2026-03-19T13:23', yearBuilt: 2025, country: 'DE' },
     {
@@ -30,7 +30,7 @@ export class CarsService {
       model: 'Mustang',
       serviceDate: '2026-03-19T13:23',
       yearBuilt: 2023,
-      country: 'US',
+      country: '',
     },
     {
       id: 4,
@@ -38,7 +38,7 @@ export class CarsService {
       model: 'Volvo 5',
       serviceDate: '2026-03-19T13:23',
       yearBuilt: 2020,
-      country: 'SE',
+      country: '',
     },
     {
       id: 5,
@@ -46,7 +46,7 @@ export class CarsService {
       model: 'TR76',
       serviceDate: '2026-03-19T13:23',
       yearBuilt: 2024,
-      country: 'DE',
+      country: '',
     },
     {
       id: 6,
@@ -54,7 +54,7 @@ export class CarsService {
       model: '88',
       serviceDate: '2026-03-19T13:23',
       yearBuilt: 2025,
-      country: 'UK',
+      country: '',
     },
     {
       id: 7,
@@ -62,7 +62,7 @@ export class CarsService {
       model: '8d',
       serviceDate: '2026-03-19T13:23',
       yearBuilt: 2022,
-      country: 'JP',
+      country: '',
     },
   ];
 
@@ -81,8 +81,15 @@ export class CarsService {
     // return this.carApiService.getCarOptions('/cars/options');
   }
 
-  getCountryCodeArray():[string, string]{
-    return Map("BMW", 'Germany')
+  getCountryCodeArray(): [string, string][] {
+    let countryCodes = new Map<string, string>();
+    countryCodes.set('Tesla', 'US');
+    countryCodes.set('BMW', 'Germany');
+    countryCodes.set('Ford', 'US');
+    countryCodes.set('Volvo', 'SE');
+    countryCodes.set('Land Rover', 'UK');
+    countryCodes.set('Toyota', 'JP');
+    return Array.from(countryCodes.entries());
   }
 
   findAllCars(): Observable<Car[]> {

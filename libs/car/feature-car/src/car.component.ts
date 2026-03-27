@@ -34,6 +34,14 @@ export class CarComponent implements OnInit {
       const allCarsArray: Car[] = this.carsListStore.cars.entities();
       const currentDataSource = this.dataSource();
       currentDataSource.data = allCarsArray as CarData[];
+      let myMap = new Map<string, number>();
+      myMap.set('one', 1);
+      myMap.set('two', 2);
+      myMap.set('three', 3);
+
+      myMap.forEach((value, key) => {
+        console.log(`Key: ${key}, Value: ${value}`);
+      });
     });
   }
 

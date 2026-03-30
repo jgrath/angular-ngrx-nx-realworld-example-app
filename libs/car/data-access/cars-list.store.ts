@@ -4,7 +4,7 @@ import { setLoaded, setLoading, withCallState } from '../../core/data-access/src
 import { inject } from '@angular/core';
 import { CarsService } from './src/services/cars.service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { concatMap, pipe, tap } from 'rxjs';
+import { concatMap, map, pipe, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { Car, CarDataInfo } from '../../core/api-types/src/lib/car';
 
@@ -17,18 +17,19 @@ export const CarsListStore = signalStore(
     loadCars: rxMethod<string>(
       pipe(
         tap(() => setLoading('getCars')),
-        concatMap(() =>
+       this line switchMap()???)  concatMap(() =>
           carsService.findAllCars().pipe(
             tapResponse({
-              next: (carsArray: Car[]) => {
-                const countryCodesArray = carsService.getCountryCodeArray();
-                const countryMap = new Map<string, string>(countryCodesArray);
+              next: (carsArray: Car[], countryMap: Car[]) => {
 
-                const updatedCars = carsArray.map((car) => ({
-                  ...car,
-                  country: countryMap.get(car.brand) || 'Unknown',
-                }));
-                patchState(store, {
+                const countryCodesObservable = carsService.getCountryCodeArray();
+//                const countryMap = new Map<string, string>(countryCodesArray);
+
+                // const updatedCars = carsArray.map((car) => ({
+                //   ...car,
+                //   country: countryMap.get(car.brand) || 'Unknown',
+                // }));
+                // patchState(store, {
                   cars: { entities: updatedCars, lastUpdatedTime: new Date().toISOString() },
                   ...setLoaded('getCars'),
                 });

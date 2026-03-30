@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { CarApiService } from '../../../../core/http-client/src/lib/car.api.service';
 import { Car } from '../../../../core/api-types/src/lib/car';
 
@@ -81,7 +81,7 @@ export class CarsService {
     // return this.carApiService.getCarOptions('/cars/options');
   }
 
-  getCountryCodeArray(): [string, string][] {
+  getCountryCodeArray() {
     let countryCodes = new Map<string, string>();
     countryCodes.set('Tesla', 'US');
     countryCodes.set('BMW', 'DE');
@@ -89,7 +89,8 @@ export class CarsService {
     countryCodes.set('Volvo', 'SE');
     countryCodes.set('Land Rover', 'UK');
     countryCodes.set('Toyota', 'JP');
-    return Array.from(countryCodes.entries());
+    const array = Array.from(countryCodes.entries());
+    return of(array)
   }
 
   findAllCars(): Observable<Car[]> {

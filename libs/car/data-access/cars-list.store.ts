@@ -4,7 +4,7 @@ import { setLoaded, setLoading, withCallState } from '../../core/data-access/src
 import { inject } from '@angular/core';
 import { CarsService } from './src/services/cars.service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { concatMap, map, pipe, tap } from 'rxjs';
+import { concatMap, map, pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { Car, CarDataInfo } from '../../core/api-types/src/lib/car';
 
@@ -14,33 +14,47 @@ export const CarsListStore = signalStore(
   withState<CarsListState>(carsListInitialState),
 
   withMethods((store, carsService = inject(CarsService)) => ({
-    loadCars: rxMethod<string>(
+     loadCars: rxMethod<void>(
       pipe(
-        tap(() => setLoading('getCars')),
-       this line switchMap()???)  concatMap(() =>
-          carsService.findAllCars().pipe(
-            tapResponse({
-              next: (carsArray: Car[], countryMap: Car[]) => {
+        // 1. Set the loading state for the 'getCars' collection
+        tap(() => patchState(store, setLoading('getCars'))),
 
-                const countryCodesObservable = carsService.getCountryCodeArray();
-//                const countryMap = new Map<string, string>(countryCodesArray);
+        // 2. Call the first service (Country Codes)
+        switchMap(() =>
+          carsService.getCountryCodeArray().pipe(
+            // 3. Convert the returned array to a Map for easy lookup
+            map((countryArray) => new Map<string, string>(countryArray)),
 
-                // const updatedCars = carsArray.map((car) => ({
-                //   ...car,
-                //   country: countryMap.get(car.brand) || 'Unknown',
-                // }));
-                // patchState(store, {
-                  cars: { entities: updatedCars, lastUpdatedTime: new Date().toISOString() },
-                  ...setLoaded('getCars'),
-                });
-              },
-              error: () => {
-                patchState(store, {
-                  ...carsListInitialState,
-                  ...setLoaded('getCars'),
-                });
-              },
-            }),
+            // 4. Use switchMap again to call the second service (Cars)
+            switchMap((countryMap) =>
+              carsService.findAllCars().pipe(
+                tapResponse({
+                  next: (carsArray: Car[]) => {
+                    // 5. Map the cars using the countryMap closure from step 3
+                    const updatedCars = carsArray.map((car) => ({
+                      ...car,
+                      country: countryMap.get(car.brand) || 'Unknown',
+                    }));
+
+                    patchState(store, {
+                      cars: {
+                        entities: updatedCars,
+                        lastUpdatedTime: new Date().toISOString(),
+                      },
+                      // 6. Set loaded state for 'getCars'
+                      ...setLoaded('getCars'),
+                    });
+                  },
+                  error: (error) => {
+                    console.error(error);
+                    patchState(store, {
+                      ...carsListInitialState,
+                      ...setLoaded('getCars'),
+                    });
+                  },
+                }),
+              ),
+            ),
           ),
         ),
       ),

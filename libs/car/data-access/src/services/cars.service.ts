@@ -81,17 +81,18 @@ export class CarsService {
     // return this.carApiService.getCarOptions('/cars/options');
   }
 
-  getCountryCodeArray() {
-    let countryCodes = new Map<string, string>();
-    countryCodes.set('Tesla', 'US');
-    countryCodes.set('BMW', 'DE');
-    countryCodes.set('Ford', 'US');
-    countryCodes.set('Volvo', 'SE');
-    countryCodes.set('Land Rover', 'UK');
-    countryCodes.set('Toyota', 'JP');
-    const array = Array.from(countryCodes.entries());
-    return of(array)
-  }
+getCountryCodeArray(): Observable<Array<[string, string]>> {
+  let countryCodes = new Map<string, string>();
+  countryCodes.set('Tesla', 'US');
+  countryCodes.set('BMW', 'DE');
+  countryCodes.set('Ford', 'US');
+  countryCodes.set('Volvo', 'SE');
+  countryCodes.set('Land Rover', 'UK');
+  countryCodes.set('Toyota', 'JP');
+
+  const array = Array.from(countryCodes.entries());
+  return of(array);
+}
 
   findAllCars(): Observable<Car[]> {
     return of(this.CAR_DATA);

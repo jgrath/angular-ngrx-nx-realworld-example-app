@@ -91,7 +91,9 @@ getCountryCodeArray(): Observable<Array<[string, string]>> {
   countryCodes.set('Toyota', 'JP');
 
   const array = Array.from(countryCodes.entries());
-  return of(array);
+  return of(array).pipe(
+    delay(10000)
+  );
 }
 
   findAllCars(): Observable<Car[]> {

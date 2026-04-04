@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   vehicleLabel = signal('Car');
 
   ngOnInit(): void {
-    this.carsListStore.loadCars('');
+    this.carsListStore.loadCars();
     const carEntities = this.carsListStore.cars.entities();
 
     if (carEntities.length > 1) {

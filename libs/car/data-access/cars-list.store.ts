@@ -1,7 +1,7 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { carsListInitialState, CarsListState } from './models/cars-list.model';
 import { setLoaded, setLoading, withCallState } from '../../core/data-access/src';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { CarsService } from './src/services/cars.service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { concatMap, forkJoin, pipe, switchMap, tap } from 'rxjs';
@@ -12,6 +12,13 @@ export const CarsListStore = signalStore(
   { providedIn: 'root' },
 
   withState<CarsListState>(carsListInitialState),
+  withCallState({ collection: 'getCars' }),
+  withCallState({ collection: 'saveCars' }),
+
+  withComputed((store) => ({
+    isCarsLoading: computed(() => store.getCarsCallState() === 'loading'),
+    isSaving: computed(() => store.saveCarsCallState() === 'loading'),
+  })),
 
   withMethods((store, carsService = inject(CarsService)) => ({
     loadCars: rxMethod<void>(
@@ -120,7 +127,4 @@ export const CarsListStore = signalStore(
       ),
     ),
   })),
-
-  withCallState({ collection: 'getCars' }),
-  withCallState({ collection: 'saveCars' }),
 );

@@ -1,6 +1,7 @@
 import { Component, signal, effect, viewChild, OnInit, inject } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; 
 import { Field } from '@angular/forms/signals';
 import { CarDialogComponent } from './feature-car-edit/update-car.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,27 +22,21 @@ export interface CarData {
   selector: 'cdt-car',
   templateUrl: './car.component.html',
   styleUrls: ['./car.component.css'],
-  imports: [MatTableModule, MatPaginatorModule, Field, DatePipe],
+  // 2. Added MatProgressSpinnerModule to imports
+  imports: [MatTableModule, MatPaginatorModule, MatProgressSpinnerModule, Field, DatePipe],
 })
 export class CarComponent implements OnInit {
   private dialog = inject(MatDialog);
   readonly countries = signal<string[]>([]);
 
-  private readonly carsListStore = inject(CarsListStore);
+  // 3. Changed to 'public store' so the HTML can access store.isCarsLoading()
+  public readonly store = inject(CarsListStore);
 
   constructor() {
     effect(() => {
-      const allCarsArray: Car[] = this.carsListStore.cars.entities();
+      const allCarsArray: Car[] = this.store.cars.entities();
       const currentDataSource = this.dataSource();
       currentDataSource.data = allCarsArray as CarData[];
-      let myMap = new Map<string, number>();
-      myMap.set('one', 1);
-      myMap.set('two', 2);
-      myMap.set('three', 3);
-
-      myMap.forEach((value, key) => {
-        console.log(`Key: ${key}, Value: ${value}`);
-      });
     });
   }
 
@@ -57,11 +52,13 @@ export class CarComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateDate.set(true);
-    this.carsListStore.getAllCarData();
+    this.store.getAllCarData();
+    // 5. Ensure loadCars is called to trigger the loading state
+    this.store.loadCars();
   }
 
   getCountryName(abbreviation: string): string {
-    const options = this.carsListStore.countries();
+    const options = this.store.countries();
     const match = options.find((obj) => obj.abbreviation === abbreviation);
 
     return match?.country ?? abbreviation;
@@ -72,19 +69,13 @@ export class CarComponent implements OnInit {
   }
 
   saveAllCars() {
-    // 1. Get the current data array from the Signal's DataSource
     const allCars: CarData[] = this.dataSource().data;
-
-    this.carsListStore.saveCars(allCars);
-
+    this.store.saveCars(allCars);
     this.dataSource.set(new MatTableDataSource<CarData>(allCars));
   }
 
   addNewCar(newCar: CarData) {
-    // 1. In SignalStore, cars() returns the current state of that slice.
-    const itemsInArray = this.carsListStore.cars().entities.length;
-
-    // 4. Calculate Max ID (ensuring numeric conversion)
+    const itemsInArray = this.store.cars().entities.length;
     const maxId = itemsInArray > 0 ? itemsInArray : 0;
 
     const carToSave = {
@@ -92,22 +83,19 @@ export class CarComponent implements OnInit {
       id: maxId + 1,
     };
 
-    // 5. Update Store
-    this.carsListStore.addCar(carToSave);
+    this.store.addCar(carToSave);
   }
 
   editCarBrand(car: CarData, newBrand: string) {
-    const currentData: MatTableDataSource<CarData, MatPaginator> = this.dataSource();
+    const currentData = this.dataSource();
     const updatedData = currentData.data.map((item) => {
       if (item.id === car.id) {
-        return { ...item, brand: car.model };
+        return { ...item, brand: newBrand };
       }
       return item;
     });
 
     this.dataSource.set(new MatTableDataSource<CarData>(updatedData));
-
-    console.log('Updated car:', car.id, 'to brand:', car.model);
   }
 
   openCarDialog(car?: CarData): void {
@@ -120,7 +108,7 @@ export class CarComponent implements OnInit {
         ? {
             ...car,
             bannerText: 'Edit Car Details',
-            buttonText: 'Update', // Set text for editing
+            buttonText: 'Update',
           }
         : {
             yearBuilt: '',
@@ -135,7 +123,7 @@ export class CarComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       const isEdit = !!car?.id;
       if (!result) return;
-      isEdit ? this.carsListStore.updateCarInState(result) : this.addNewCar(result);
+      isEdit ? this.store.updateCarInState(result) : this.addNewCar(result);
     });
   }
 }

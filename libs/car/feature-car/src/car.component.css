@@ -65,3 +65,21 @@ button:active {
   padding: 1rem;
   width: 100%;
 }
+
+.table-container {
+  position: relative; /* REQUIRED for the absolute overlay */
+  min-height: 400px; /* Ensure there is space for the spinner to show */
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.7); /* Light overlay so you can see it working */
+  z-index: 100; /* High enough to be over the table */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

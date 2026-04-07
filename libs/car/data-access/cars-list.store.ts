@@ -23,7 +23,7 @@ export const CarsListStore = signalStore(
   withMethods((store, carsService = inject(CarsService)) => ({
     loadCars: rxMethod<void>(
       pipe(
-        tap(() => setLoading('getCars')),
+        tap(() => patchState(store, {loading: true})),
         switchMap(() =>
           forkJoin({
             countryArray: carsService.getCountryCodeArray(),
@@ -41,7 +41,7 @@ export const CarsListStore = signalStore(
                     entities: updatedCars,
                     lastUpdatedTime: new Date().toISOString(),
                   },
-                  ...setLoaded('getCars'),
+                  loading: false
                 });
               },
               error: (error) => {

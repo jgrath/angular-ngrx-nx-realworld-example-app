@@ -11,6 +11,7 @@ export interface CarsListState {
   // Add these two lines:
   yearBuilt: number[];
   countries: Country[];
+  carsLoading: boolean
 }
 
 export interface Cars {
@@ -26,4 +27,5 @@ export const carsListInitialState: CarsListState = {
   // Initialize them here:
   yearBuilt: [],
   countries: [],
+  carsLoading: false
 };

@@ -38,25 +38,24 @@ export interface CarData {
     MatDialogModule,
     DatePipe,
   ],
+  providers: [DatePipe],
 })
 export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
   private dialog = inject(MatDialog);
+  private datePipe = inject(DatePipe);
   public readonly store = inject(CarsListStore);
 
   displayedColumns: string[] = ['id', 'brand', 'model', 'yearBuilt', 'country', 'serviceDate', 'actions'];
   readonly dataSource = signal(new MatTableDataSource<CarData>([]));
   readonly paginator = viewChild(MatPaginator);
 
-  // Debounce stream for search
   private searchSubject = new Subject<string>();
 
   constructor() {
     effect(() => {
-      const allCarsArray: Car[] = this.store.cars.entities();
-      this.dataSource().data = allCarsArray as CarData[];
+      this.dataSource().data = this.store.cars.entities() as CarData[];
     });
 
-    // Initialize debounce listener (300ms delay)
     this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((value) => this.executeFilter(value));
   }
 
@@ -64,10 +63,11 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.getAllCarData();
     this.store.loadCars();
 
-    // Custom Filter Predicate to handle Country Names
     this.dataSource().filterPredicate = (data: CarData, filter: string) => {
-      const countryDisplayName = this.getCountryName(data.country).toLowerCase();
-      const searchTerms = (data.brand + data.model + data.yearBuilt + countryDisplayName).toLowerCase();
+      const countryName = this.getCountryName(data.country).toLowerCase();
+      const formattedDate = this.datePipe.transform(data.serviceDate, 'short')?.toLowerCase() || '';
+
+      const searchTerms = (data.brand + data.model + data.yearBuilt + countryName + formattedDate).toLowerCase();
 
       return searchTerms.includes(filter);
     };
@@ -89,8 +89,7 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCountryName(abbreviation: string): string {
     const options = this.store.countries();
-    const match = options.find((obj) => obj.abbreviation === abbreviation);
-    return match?.country ?? abbreviation;
+    return options.find((o) => o.abbreviation === abbreviation)?.country ?? abbreviation;
   }
 
   saveAllCars() {
@@ -101,10 +100,9 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
     const isEdit = !!car?.id;
     const dialogRef = this.dialog.open(CarDialogComponent, {
       width: '500px',
-      height: '600px',
       data: isEdit
-        ? { ...car, bannerText: 'Edit Car Details', buttonText: 'Update' }
-        : { brand: '', model: '', bannerText: 'Add New Car', buttonText: 'Add' },
+        ? { ...car, bannerText: 'Edit Car', buttonText: 'Update' }
+        : { brand: '', model: '', bannerText: 'Add Car', buttonText: 'Add' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

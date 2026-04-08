@@ -1,13 +1,18 @@
-import { Component, signal, effect, viewChild, OnInit, inject } from '@angular/core';
+import { Component, signal, effect, viewChild, OnInit, inject, OnDestroy, AfterViewInit } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; 
-import { Field } from '@angular/forms/signals';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 import { CarDialogComponent } from './feature-car-edit/update-car.component';
-import { MatDialog } from '@angular/material/dialog';
 import { CarsListStore } from '@realworld/car/data-access/cars-list.store';
 import { Car } from '@realworld/core/api-types/src/lib/car';
-import { DatePipe } from '@angular/common';
 
 export interface CarData {
   id: number;
@@ -20,110 +25,95 @@ export interface CarData {
 
 @Component({
   selector: 'cdt-car',
+  standalone: true,
   templateUrl: './car.component.html',
   styleUrls: ['./car.component.css'],
-  // 2. Added MatProgressSpinnerModule to imports
-  imports: [MatTableModule, MatPaginatorModule, MatProgressSpinnerModule, Field, DatePipe],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatDialogModule,
+    DatePipe,
+  ],
 })
-export class CarComponent implements OnInit {
+export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
   private dialog = inject(MatDialog);
-  readonly countries = signal<string[]>([]);
-
-  // 3. Changed to 'public store' so the HTML can access store.isCarsLoading()
   public readonly store = inject(CarsListStore);
+
+  displayedColumns: string[] = ['id', 'brand', 'model', 'yearBuilt', 'country', 'serviceDate', 'actions'];
+  readonly dataSource = signal(new MatTableDataSource<CarData>([]));
+  readonly paginator = viewChild(MatPaginator);
+
+  // Debounce stream for search
+  private searchSubject = new Subject<string>();
 
   constructor() {
     effect(() => {
       const allCarsArray: Car[] = this.store.cars.entities();
-      const currentDataSource = this.dataSource();
-      currentDataSource.data = allCarsArray as CarData[];
+      this.dataSource().data = allCarsArray as CarData[];
     });
+
+    // Initialize debounce listener (300ms delay)
+    this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((value) => this.executeFilter(value));
   }
-
-  onSubmit(event: Event) {
-    event.preventDefault();
-  }
-
-  displayedColumns: string[] = ['id', 'brand', 'model', 'yearBuilt', 'country', 'serviceDate', 'actions'];
-
-  readonly dataSource = signal(new MatTableDataSource<CarData>([]));
-  readonly paginator = viewChild(MatPaginator);
-  readonly updateDate = signal(false);
 
   ngOnInit(): void {
-    this.updateDate.set(true);
     this.store.getAllCarData();
-    // 5. Ensure loadCars is called to trigger the loading state
     this.store.loadCars();
+
+    // Custom Filter Predicate to handle Country Names
+    this.dataSource().filterPredicate = (data: CarData, filter: string) => {
+      const countryDisplayName = this.getCountryName(data.country).toLowerCase();
+      const searchTerms = (data.brand + data.model + data.yearBuilt + countryDisplayName).toLowerCase();
+
+      return searchTerms.includes(filter);
+    };
+  }
+
+  ngAfterViewInit() {
+    this.dataSource().paginator = this.paginator() ?? null;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement)?.value || '';
+    this.searchSubject.next(filterValue);
+  }
+
+  private executeFilter(value: string) {
+    this.dataSource().filter = value.trim().toLowerCase();
+    this.paginator()?.firstPage();
   }
 
   getCountryName(abbreviation: string): string {
     const options = this.store.countries();
     const match = options.find((obj) => obj.abbreviation === abbreviation);
-
     return match?.country ?? abbreviation;
   }
 
-  ngAfterViewInit() {
-    this.dataSource().paginator = this.paginator();
-  }
-
   saveAllCars() {
-    const allCars: CarData[] = this.dataSource().data;
-    this.store.saveCars(allCars);
-    this.dataSource.set(new MatTableDataSource<CarData>(allCars));
-  }
-
-  addNewCar(newCar: CarData) {
-    const itemsInArray = this.store.cars().entities.length;
-    const maxId = itemsInArray > 0 ? itemsInArray : 0;
-
-    const carToSave = {
-      ...newCar,
-      id: maxId + 1,
-    };
-
-    this.store.addCar(carToSave);
-  }
-
-  editCarBrand(car: CarData, newBrand: string) {
-    const currentData = this.dataSource();
-    const updatedData = currentData.data.map((item) => {
-      if (item.id === car.id) {
-        return { ...item, brand: newBrand };
-      }
-      return item;
-    });
-
-    this.dataSource.set(new MatTableDataSource<CarData>(updatedData));
+    this.store.saveCars(this.dataSource().data);
   }
 
   openCarDialog(car?: CarData): void {
     const isEdit = !!car?.id;
-
     const dialogRef = this.dialog.open(CarDialogComponent, {
       width: '500px',
       height: '600px',
       data: isEdit
-        ? {
-            ...car,
-            bannerText: 'Edit Car Details',
-            buttonText: 'Update',
-          }
-        : {
-            yearBuilt: '',
-            brand: '',
-            model: '',
-            serviceDate: '',
-            bannerText: 'Add New Car',
-            buttonText: 'Add',
-          },
+        ? { ...car, bannerText: 'Edit Car Details', buttonText: 'Update' }
+        : { brand: '', model: '', bannerText: 'Add New Car', buttonText: 'Add' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      const isEdit = !!car?.id;
       if (!result) return;
-      isEdit ? this.store.updateCarInState(result) : this.addNewCar(result);
+      isEdit ? this.store.updateCarInState(result) : this.store.addCar({ ...result, id: Date.now() });
     });
+  }
+
+  ngOnDestroy() {
+    this.searchSubject.complete();
   }
 }

@@ -118,6 +118,18 @@ button:active {
   flex-direction: column;
 }
 
+.search-field {
+  width: 300px; /* Adjusted width */
+  /* Removed display:flex and justify-content:center as they break Material alignment */
+}
+
+.refresh-checkbox {
+  /* Aligns the checkbox with the horizontal center of the search input */
+
+  margin-bottom: 00px;
+  margin-left: 250px;
+}
+
 .loading-shade {
   position: absolute;
   top: 0;

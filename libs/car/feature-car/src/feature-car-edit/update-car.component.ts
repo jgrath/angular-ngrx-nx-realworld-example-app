@@ -71,15 +71,12 @@ export class CarDialogComponent implements OnInit {
   }
 
   private applyValues(values: any) {
-    // 1. Update the value (this is a writable signal)
     this.carForm.brand().value.set(values.brand);
     this.carForm.model().value.set(values.model);
     this.carForm.serviceDate().value.set(values.serviceDate);
     this.carForm.yearBuilt().value.set(values.yearBuilt);
     this.carForm.country().value.set(values.country);
 
-    // 2. Reset the status (touched/dirty) using the built-in reset or mark methods
-    // If the library version supports it, reset() is the cleanest way
     this.carForm.brand().reset();
     this.carForm.model().reset();
     this.carForm.serviceDate().reset();

@@ -1,7 +1,7 @@
 :host {
   display: block;
   /* Prevent the negative margins from creating a scrollbar */
-  overflow: hidden; 
+  overflow: hidden;
   border-radius: 4px;
   background: white;
 }
@@ -9,14 +9,14 @@
 .dialog-header {
   background: #f8f9fa;
   /* Keep these to flush the header to the top/sides */
-  margin: -24px -24px 0 -24px; 
+  margin: -24px -24px 0 -24px;
   padding: 16px 24px;
   border-bottom: 1px solid #e0e0e0;
 }
 
 /* Ensure the content area doesn't add extra scroll triggers */
 mat-dialog-content {
-  overflow: hidden !important; 
+  overflow: hidden !important;
   padding: 20px 0; /* Adjust vertical spacing since header margin changed */
 }
 
@@ -39,17 +39,32 @@ label {
   gap: 0.25rem;
   font-weight: 500;
 }
-input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+input,
+select {
+  height: 40px; /* Fixed height for both */
+  padding: 0.5rem 0.75rem;
   font-size: 1rem;
-  font-family: inherit;
-}
-input:focus {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 100%;
   outline: none;
-  border-color: #4285f4;
+  transition: border-color 0.15s ease-in-out;
 }
+
+/* 4. Select-specific adjustment 
+   Browsers often give <select> different default line-heights */
+select {
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+input:focus,
+select:focus {
+  border-color: #3f51b5; /* Match Angular Material primary color */
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1);
+}
+
 button {
   padding: 0.75rem 1.5rem;
   background-color: #4285f4;

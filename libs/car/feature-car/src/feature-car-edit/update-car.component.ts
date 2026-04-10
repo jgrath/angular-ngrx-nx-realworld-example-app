@@ -27,6 +27,9 @@ export class CarDialogComponent implements OnInit {
   years: number[] = this.carsListStore.yearBuilt();
   countries: { abbreviation: string; country: string }[] = this.carsListStore.countries();
 
+  // Store initial values to support Reset functionality
+  private initialValues: any;
+
   constructor(
     public dialogRef: MatDialogRef<CarDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -55,9 +58,37 @@ export class CarDialogComponent implements OnInit {
     const rawDate = this.data.serviceDate ? new Date(this.data.serviceDate) : new Date();
     const formattedDate = rawDate.toISOString().substring(0, 16);
 
-    this.carForm.brand().value.set(this.data.brand ?? '');
-    this.carForm.model().value.set(this.data.model ?? '');
-    this.carForm.serviceDate().value.set(formattedDate);
+    // Set initial values from data
+    this.initialValues = {
+      brand: this.data.brand ?? '',
+      model: this.data.model ?? '',
+      serviceDate: formattedDate,
+      yearBuilt: this.data.yearBuilt ?? '',
+      country: this.data.country ?? '',
+    };
+
+    this.applyValues(this.initialValues);
+  }
+
+  private applyValues(values: any) {
+    // 1. Update the value (this is a writable signal)
+    this.carForm.brand().value.set(values.brand);
+    this.carForm.model().value.set(values.model);
+    this.carForm.serviceDate().value.set(values.serviceDate);
+    this.carForm.yearBuilt().value.set(values.yearBuilt);
+    this.carForm.country().value.set(values.country);
+
+    // 2. Reset the status (touched/dirty) using the built-in reset or mark methods
+    // If the library version supports it, reset() is the cleanest way
+    this.carForm.brand().reset();
+    this.carForm.model().reset();
+    this.carForm.serviceDate().reset();
+    this.carForm.yearBuilt().reset();
+    this.carForm.country().reset();
+  }
+
+  onReset(): void {
+    this.applyValues(this.initialValues);
   }
 
   onCancel(): void {
@@ -65,9 +96,6 @@ export class CarDialogComponent implements OnInit {
   }
 
   onUpdate(): void {
-    //if (this.carForm.invalid()) {
-    // return;
-    // }
     const updatedData = this.carForm().value();
     this.dialogRef.close(updatedData);
   }

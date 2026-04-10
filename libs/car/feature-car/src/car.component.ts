@@ -56,7 +56,7 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataSource().data = this.store.cars.entities() as CarData[];
     });
 
-    this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((value) => this.executeFilter(value));
+    this.searchSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((value) => this.executeFilter(value));
   }
 
   ngOnInit(): void {

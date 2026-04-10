@@ -5,9 +5,8 @@
       <input matInput #input (keyup)="applyFilter($event)" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
+    <mat-checkbox class="refresh-checkbox" (change)="toggleRefresh($event)"> Refresh Data </mat-checkbox>
   </div>
-
-  <mat-checkbox class="refresh-checkbox" (change)="toggleRefresh($event)"> Refresh Data </mat-checkbox>
 
   <!-- Spinner Overlay -->
   @if (store.carsLoading()) {

@@ -3,7 +3,6 @@
 <img src="logo.png" alt="RealWorld Example App" width="200"/>
 
 ### Modern Angular features:
-
 - New Control Flow
 - Deferred Loading
 - Zoneless

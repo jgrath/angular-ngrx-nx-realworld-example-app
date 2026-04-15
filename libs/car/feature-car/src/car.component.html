@@ -2,6 +2,7 @@
   <!-- Flex container to align search and checkbox horizontally -->
   <div class="header-container">
     <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search Cars</mat-label>
       <input matInput #input (keyup)="applyFilter($event)" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
@@ -11,9 +12,10 @@
   <!-- Spinner Overlay -->
   @if (store.carsLoading()) {
     <div class="loading-shade">
-      <mat-spinner></mat-spinner>
+      <mat-spinner diameter="40"></mat-spinner>
     </div>
   }
+
   <table mat-table [dataSource]="dataSource()">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -48,7 +50,10 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let car">
-        <button mat-icon-button color="primary" (click)="openCarDialog(car)">edit</button>
+        <!-- FIX: Using mat-icon inside button to prevent text overflow and clipping -->
+        <button mat-icon-button color="primary" (click)="openCarDialog(car)">
+          <mat-icon>edit</mat-icon>
+        </button>
       </td>
     </ng-container>
 
@@ -63,15 +68,17 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of cars"></mat-paginator>
 
   <div class="button-container">
-    <button mat-raised-button color="primary" style="width: 200px" (click)="openCarDialog()">Add</button>
+    <button mat-raised-button color="primary" class="action-btn" (click)="openCarDialog()">Add</button>
     <button
       mat-raised-button
       color="primary"
-      style="width: 200px"
+      class="action-btn"
       (click)="saveAllCars()"
       [disabled]="store.isSaving() || store.carsLoading()"
     >
       {{ store.isSaving() ? 'Saving...' : 'Save' }}
     </button>
+    <!-- New Cache Button -->
+    <button mat-raised-button color="accent" class="action-btn" (click)="cacheCars()">Cache Values</button>
   </div>
 </div>

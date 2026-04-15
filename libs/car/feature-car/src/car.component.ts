@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -37,6 +38,7 @@ export interface CarData {
     MatIconModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatButtonModule,
     DatePipe,
   ],
   providers: [DatePipe],
@@ -46,16 +48,21 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
   private datePipe = inject(DatePipe);
   public readonly store = inject(CarsListStore);
 
+  private readonly CACHE_KEY = 'cached_car_data';
   displayedColumns: string[] = ['id', 'brand', 'model', 'yearBuilt', 'country', 'serviceDate', 'actions'];
   readonly dataSource = signal(new MatTableDataSource<CarData>([]));
   readonly paginator = viewChild(MatPaginator);
 
   private searchSubject = new Subject<string>();
-  private currentFilterValue = ''; // Store the last search term
+  private currentFilterValue = '';
 
   constructor() {
     effect(() => {
-      this.dataSource().data = this.store.cars.entities() as CarData[];
+      const storeData = this.store.cars.entities() as CarData[];
+
+      if (storeData && storeData.length > 0) {
+        this.dataSource().data = storeData;
+      }
       
       if (this.currentFilterValue) {
         this.dataSource().filter = this.currentFilterValue;
@@ -67,7 +74,14 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.getAllCarData();
-    this.store.loadCars();
+
+    const cachedData = localStorage.getItem(this.CACHE_KEY);
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData);
+      this.dataSource().data = parsedData;
+    } else {
+      this.store.loadCars();
+    }
 
     this.dataSource().filterPredicate = (data: CarData, filter: string) => {
       const countryName = this.getCountryName(data.country).toLowerCase();
@@ -77,8 +91,15 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
+  cacheCars(): void {
+    const data = this.dataSource().data;
+    localStorage.setItem(this.CACHE_KEY, JSON.stringify(data));
+    alert('Values cached to local storage!');
+  }
+
   toggleRefresh(event: MatCheckboxChange): void {
     if (event.checked) {
+      localStorage.removeItem(this.CACHE_KEY); 
       this.store.getAllCarData();
       this.store.loadCars();
     }
@@ -86,7 +107,7 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement)?.value || '';
-    this.currentFilterValue = filterValue.trim().toLowerCase(); // Track value
+    this.currentFilterValue = filterValue.trim().toLowerCase();
     this.searchSubject.next(this.currentFilterValue);
   }
 

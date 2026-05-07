@@ -6,7 +6,9 @@
       <input matInput #input (keyup)="applyFilter($event)" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <mat-checkbox class="refresh-checkbox" (change)="toggleRefresh($event)"> Refresh Data </mat-checkbox>
+    <button mat-icon-button color="primary" (click)="toggleRefresh()">
+      <mat-icon>refresh</mat-icon>
+    </button>
   </div>
 
   <!-- Spinner Overlay -->

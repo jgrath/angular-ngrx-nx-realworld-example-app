@@ -55,31 +55,39 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private searchSubject = new Subject<string>();
   private currentFilterValue = '';
+  private isCached = false;
 
   constructor() {
     effect(() => {
       const storeData = this.store.cars.entities() as CarData[];
 
-      if (storeData && storeData.length > 0) {
+      if (storeData && storeData.length > 0 && !this.isCached) {
         this.dataSource().data = storeData;
       }
-      
+
       if (this.currentFilterValue) {
         this.dataSource().filter = this.currentFilterValue;
       }
     });
 
-    this.searchSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((value) => this.executeFilter(value));
+    this.searchSubject.pipe(debounceTime(1000),
+      distinctUntilChanged()).subscribe((value) => {
+      this.dataSource().filter = value;
+      this.paginator()?.firstPage();
+    });
   }
 
   ngOnInit(): void {
     this.store.getAllCarData();
 
     const cachedData = localStorage.getItem(this.CACHE_KEY);
+
     if (cachedData) {
+      this.isCached = true;
       const parsedData = JSON.parse(cachedData);
       this.dataSource().data = parsedData;
     } else {
+      this.isCached = false;
       this.store.loadCars();
     }
 
@@ -92,28 +100,21 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   cacheCars(): void {
-    const data = this.dataSource().data;
+    const data = this.dataSource().filteredData;
     localStorage.setItem(this.CACHE_KEY, JSON.stringify(data));
-    alert('Values cached to local storage!');
   }
 
-  toggleRefresh(event: MatCheckboxChange): void {
-    if (event.checked) {
-      localStorage.removeItem(this.CACHE_KEY); 
+  toggleRefresh(): void {
+      localStorage.removeItem(this.CACHE_KEY);
+      this.isCached = false;
       this.store.getAllCarData();
       this.store.loadCars();
-    }
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement)?.value || '';
     this.currentFilterValue = filterValue.trim().toLowerCase();
     this.searchSubject.next(this.currentFilterValue);
-  }
-
-  private executeFilter(value: string) {
-    this.dataSource().filter = value;
-    this.paginator()?.firstPage();
   }
 
   getCountryName(abbreviation: string): string {

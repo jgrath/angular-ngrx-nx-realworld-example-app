@@ -1,12 +1,12 @@
-import { Component, signal, effect, viewChild, OnInit, inject, OnDestroy, AfterViewInit } from '@angular/core';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { AfterViewInit, Component, effect, inject, OnDestroy, OnInit, signal, viewChild } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatCheckboxModule, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
 import { Subject } from 'rxjs';
@@ -70,8 +70,7 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
-    this.searchSubject.pipe(debounceTime(1000),
-      distinctUntilChanged()).subscribe((value) => {
+    this.searchSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((value) => {
       this.dataSource().filter = value;
       this.paginator()?.firstPage();
     });
@@ -98,17 +97,17 @@ export class CarComponent implements OnInit, AfterViewInit, OnDestroy {
       return searchTerms.includes(filter);
     };
   }
-
+˙
   cacheCars(): void {
     const data = this.dataSource().filteredData;
     localStorage.setItem(this.CACHE_KEY, JSON.stringify(data));
   }
 
   toggleRefresh(): void {
-      localStorage.removeItem(this.CACHE_KEY);
-      this.isCached = false;
-      this.store.getAllCarData();
-      this.store.loadCars();
+    localStorage.removeItem(this.CACHE_KEY);
+    this.isCached = false;
+    this.store.getAllCarData();
+    this.store.loadCars();
   }
 
   applyFilter(event: Event) {

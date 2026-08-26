@@ -1,0 +1,419 @@
+<keymap version="1" name="IntelliJ IDEA Classic Mac &amp; Windows" parent="Mac OS X">
+  <action id="$Copy">
+    <keyboard-shortcut first-keystroke="meta c" />
+    <keyboard-shortcut first-keystroke="#10000a7" />
+    <keyboard-shortcut first-keystroke="ctrl c" />
+  </action>
+  <action id="$Cut">
+    <keyboard-shortcut first-keystroke="meta x" />
+    <keyboard-shortcut first-keystroke="shift delete" />
+    <keyboard-shortcut first-keystroke="ctrl x" />
+  </action>
+  <action id="$Paste">
+    <keyboard-shortcut first-keystroke="meta v" />
+    <keyboard-shortcut first-keystroke="shift insert" />
+    <keyboard-shortcut first-keystroke="shift #10000a7" />
+    <keyboard-shortcut first-keystroke="ctrl v" />
+  </action>
+  <action id="$Undo">
+    <keyboard-shortcut first-keystroke="meta z" />
+    <keyboard-shortcut first-keystroke="ctrl z" />
+  </action>
+  <action id="ActivateBookmarksToolWindow">
+    <keyboard-shortcut first-keystroke="alt 2" />
+  </action>
+  <action id="ActivateCommitToolWindow">
+    <keyboard-shortcut first-keystroke="alt 0" />
+  </action>
+  <action id="ActivateDebugToolWindow">
+    <keyboard-shortcut first-keystroke="alt 5" />
+  </action>
+  <action id="ActivateFindToolWindow" />
+  <action id="ActivateProblemsViewToolWindow">
+    <keyboard-shortcut first-keystroke="alt 6" />
+  </action>
+  <action id="ActivateProjectToolWindow">
+    <keyboard-shortcut first-keystroke="alt 1" />
+  </action>
+  <action id="ActivateRunToolWindow">
+    <keyboard-shortcut first-keystroke="alt 4" />
+  </action>
+  <action id="ActivateServicesToolWindow">
+    <keyboard-shortcut first-keystroke="alt 8" />
+  </action>
+  <action id="ActivateStructureToolWindow">
+    <keyboard-shortcut first-keystroke="alt 7" />
+  </action>
+  <action id="ActivateVersionControlToolWindow">
+    <keyboard-shortcut first-keystroke="alt 9" />
+  </action>
+  <action id="Arrangement.Rule.Group.Condition.Move.Up" />
+  <action id="Arrangement.Rule.Match.Condition.Move.Up" />
+  <action id="Back">
+    <mouse-shortcut keystroke="button4" />
+    <keyboard-shortcut first-keystroke="ctrl alt left" />
+  </action>
+  <action id="CWMHostShowPopupAction" />
+  <action id="ChangesView.GroupBy.Directory" />
+  <action id="ChangesView.Revert">
+    <keyboard-shortcut first-keystroke="ctrl alt z" />
+  </action>
+  <action id="ChooseDebugConfiguration">
+    <keyboard-shortcut first-keystroke="shift alt f10" />
+  </action>
+  <action id="ChooseRunConfiguration" />
+  <action id="CloseContent">
+    <keyboard-shortcut first-keystroke="alt w" />
+    <keyboard-shortcut first-keystroke="f4" />
+  </action>
+  <action id="Code.Review.Editor.New.Comment" />
+  <action id="CollapseAll" />
+  <action id="CollapseRegion">
+    <keyboard-shortcut first-keystroke="ctrl minus" />
+  </action>
+  <action id="CollapseSelection">
+    <keyboard-shortcut first-keystroke="ctrl period" />
+  </action>
+  <action id="CommentByLineComment">
+    <keyboard-shortcut first-keystroke="ctrl slash" />
+  </action>
+  <action id="Console.TableResult.CloneRow" />
+  <action id="CopyElement" />
+  <action id="CurrentLeadUnfollowAction" />
+  <action id="DatabaseView.CopyAction" />
+  <action id="Debug">
+    <keyboard-shortcut first-keystroke="shift f10" />
+  </action>
+  <action id="Diagram.DeselectAll" />
+  <action id="Diff.NextChange" />
+  <action id="Diff.PrevChange" />
+  <action id="DownloadBackendFileToClient" />
+  <action id="EditSource">
+    <keyboard-shortcut first-keystroke="shift ctrl meta alt s" />
+  </action>
+  <action id="Editor Copy">
+    <keyboard-shortcut first-keystroke="#10000a7" />
+    <keyboard-shortcut first-keystroke="ctrl c" />
+  </action>
+  <action id="Editor Cut">
+    <keyboard-shortcut first-keystroke="ctrl x" />
+  </action>
+  <action id="Editor Paste">
+    <keyboard-shortcut first-keystroke="shift #10000a7" />
+    <keyboard-shortcut first-keystroke="ctrl v" />
+  </action>
+  <action id="Editor Undo">
+    <keyboard-shortcut first-keystroke="ctrl z" />
+  </action>
+  <action id="EditorBackSpace">
+    <keyboard-shortcut first-keystroke="back_space" />
+  </action>
+  <action id="EditorChooseLookupItemDot" />
+  <action id="EditorCodeBlockEnd">
+    <keyboard-shortcut first-keystroke="alt close_bracket" />
+  </action>
+  <action id="EditorCodeBlockEndWithSelection">
+    <keyboard-shortcut first-keystroke="shift ctrl close_bracket" />
+  </action>
+  <action id="EditorCodeBlockStart">
+    <keyboard-shortcut first-keystroke="alt open_bracket" />
+  </action>
+  <action id="EditorCodeBlockStartWithSelection">
+    <keyboard-shortcut first-keystroke="shift ctrl open_bracket" />
+  </action>
+  <action id="EditorCompleteStatement">
+    <keyboard-shortcut first-keystroke="shift ctrl enter" />
+  </action>
+  <action id="EditorCopy">
+    <keyboard-shortcut first-keystroke="meta c" />
+    <keyboard-shortcut first-keystroke="#10000a7" />
+    <keyboard-shortcut first-keystroke="ctrl c" />
+  </action>
+  <action id="EditorCut">
+    <keyboard-shortcut first-keystroke="meta x" />
+    <keyboard-shortcut first-keystroke="ctrl x" />
+  </action>
+  <action id="EditorDeleteLine">
+    <keyboard-shortcut first-keystroke="alt back_slash" />
+  </action>
+  <action id="EditorDeleteToLineEnd">
+    <keyboard-shortcut first-keystroke="ctrl alt back_slash" />
+  </action>
+  <action id="EditorDeleteToLineStart">
+    <keyboard-shortcut first-keystroke="ctrl alt quote" />
+  </action>
+  <action id="EditorDeleteToWordEnd">
+    <keyboard-shortcut first-keystroke="alt delete" />
+    <keyboard-shortcut first-keystroke="alt back_space" />
+  </action>
+  <action id="EditorDeleteToWordEndInDifferentHumpsMode">
+    <keyboard-shortcut first-keystroke="ctrl alt f12" />
+  </action>
+  <action id="EditorDeleteToWordStart">
+    <keyboard-shortcut first-keystroke="ctrl back_space" />
+  </action>
+  <action id="EditorDeleteToWordStartInDifferentHumpsMode">
+    <keyboard-shortcut first-keystroke="ctrl alt f11" />
+  </action>
+  <action id="EditorDuplicate">
+    <keyboard-shortcut first-keystroke="alt quote" />
+  </action>
+  <action id="EditorLineEnd">
+    <keyboard-shortcut first-keystroke="end" />
+    <keyboard-shortcut first-keystroke="shift close_bracket" />
+  </action>
+  <action id="EditorLineEndWithSelection">
+    <keyboard-shortcut first-keystroke="shift end" />
+    <keyboard-shortcut first-keystroke="shift ctrl right" />
+  </action>
+  <action id="EditorLineStart">
+    <keyboard-shortcut first-keystroke="home" />
+    <keyboard-shortcut first-keystroke="shift open_bracket" />
+  </action>
+  <action id="EditorLineStartWithSelection">
+    <keyboard-shortcut first-keystroke="shift home" />
+    <keyboard-shortcut first-keystroke="shift ctrl left" />
+  </action>
+  <action id="EditorLookupDown" />
+  <action id="EditorMatchBrace">
+    <keyboard-shortcut first-keystroke="shift ctrl m" />
+  </action>
+  <action id="EditorPaste">
+    <keyboard-shortcut first-keystroke="meta v" />
+    <keyboard-shortcut first-keystroke="shift insert" />
+    <keyboard-shortcut first-keystroke="shift #10000a7" />
+    <keyboard-shortcut first-keystroke="ctrl v" />
+  </action>
+  <action id="EditorScrollBottom">
+    <keyboard-shortcut first-keystroke="ctrl end" />
+  </action>
+  <action id="EditorScrollTop">
+    <keyboard-shortcut first-keystroke="ctrl home" />
+  </action>
+  <action id="EditorSelectWord">
+    <keyboard-shortcut first-keystroke="alt up" />
+  </action>
+  <action id="EditorSplitLine" />
+  <action id="EditorStartNewLineBefore">
+    <keyboard-shortcut first-keystroke="ctrl alt enter" />
+  </action>
+  <action id="EditorToggleCase">
+    <keyboard-shortcut first-keystroke="shift ctrl u" />
+  </action>
+  <action id="EditorUnSelectWord" />
+  <action id="EmmetNextEditPoint" />
+  <action id="EmmetPreviousEditPoint" />
+  <action id="ExpandAll" />
+  <action id="ExpandAllRegions">
+    <keyboard-shortcut first-keystroke="shift meta add" />
+    <keyboard-shortcut first-keystroke="shift meta equals" />
+    <keyboard-shortcut first-keystroke="shift ctrl equals" />
+  </action>
+  <action id="ExpandRegion">
+    <keyboard-shortcut first-keystroke="ctrl equals" />
+  </action>
+  <action id="ExternalSystem.CollapseAll" />
+  <action id="ExternalSystem.DetachProject" />
+  <action id="ExtractMethod">
+    <keyboard-shortcut first-keystroke="ctrl alt m" />
+  </action>
+  <action id="FileChooser.TogglePathBar" />
+  <action id="FileStructurePopup">
+    <keyboard-shortcut first-keystroke="f6" />
+    <keyboard-shortcut first-keystroke="ctrl f12" />
+  </action>
+  <action id="Find">
+    <keyboard-shortcut first-keystroke="shift ctrl f" />
+  </action>
+  <action id="FindInPath">
+    <keyboard-shortcut first-keystroke="alt f" />
+  </action>
+  <action id="FindSelectionInPath">
+    <keyboard-shortcut first-keystroke="alt f" />
+  </action>
+  <action id="ForceOthersToFollowAction" />
+  <action id="Forward">
+    <mouse-shortcut keystroke="button5" />
+    <keyboard-shortcut first-keystroke="ctrl alt right" />
+  </action>
+  <action id="Git.CompareWithBranch">
+    <keyboard-shortcut first-keystroke="alt b" />
+  </action>
+  <action id="Git.Menu">
+    <keyboard-shortcut first-keystroke="alt g" />
+  </action>
+  <action id="GotoDeclaration">
+    <mouse-shortcut keystroke="meta button1" />
+    <mouse-shortcut keystroke="Force touch" />
+    <mouse-shortcut keystroke="button2" />
+    <keyboard-shortcut first-keystroke="ctrl b" />
+    <keyboard-shortcut first-keystroke="f5" />
+  </action>
+  <action id="GotoLine">
+    <keyboard-shortcut first-keystroke="ctrl g" />
+  </action>
+  <action id="GotoPreviousBookmark">
+    <keyboard-shortcut first-keystroke="ctrl y" />
+  </action>
+  <action id="GotoRelated">
+    <keyboard-shortcut first-keystroke="shift back_space" />
+  </action>
+  <action id="Graph.RouteEdges" />
+  <action id="HideAllWindows">
+    <keyboard-shortcut first-keystroke="alt m" />
+    <keyboard-shortcut first-keystroke="numpad7" />
+  </action>
+  <action id="Images.Editor.ZoomOut" />
+  <action id="InsertLiveTemplate">
+    <keyboard-shortcut first-keystroke="alt j" />
+  </action>
+  <action id="IntroduceConstant">
+    <keyboard-shortcut first-keystroke="ctrl alt c" />
+  </action>
+  <action id="IntroduceField">
+    <keyboard-shortcut first-keystroke="ctrl alt f" />
+  </action>
+  <action id="IntroduceFunctionalParameter">
+    <keyboard-shortcut first-keystroke="shift ctrl alt p" />
+  </action>
+  <action id="IntroduceParameter">
+    <keyboard-shortcut first-keystroke="ctrl alt p" />
+  </action>
+  <action id="IntroduceVariable">
+    <keyboard-shortcut first-keystroke="ctrl alt v" />
+  </action>
+  <action id="Jdbc.OpenConsole.New.Generate" />
+  <action id="Jdbc.OpenConsole.Scratch" />
+  <action id="JumpToLastChange">
+    <keyboard-shortcut first-keystroke="shift ctrl back_space" />
+  </action>
+  <action id="JupyterNotebookMoveCellDownCommandModeAction">
+    <keyboard-shortcut first-keystroke="alt down" />
+  </action>
+  <action id="JupyterNotebookMoveCellUpCommandModeAction">
+    <keyboard-shortcut first-keystroke="alt k" />
+  </action>
+  <action id="LocalHistory">
+    <keyboard-shortcut first-keystroke="alt l" />
+  </action>
+  <action id="Markdown.Preview.DecreaseFontSize" />
+  <action id="Maven.CollapseAll" />
+  <action id="Move" />
+  <action id="MoveTabRight">
+    <keyboard-shortcut first-keystroke="shift ctrl t" />
+  </action>
+  <action id="NewScratchFile" />
+  <action id="NextEditorTab" />
+  <action id="NextInlineCompletionSuggestionAction" />
+  <action id="NextTab">
+    <keyboard-shortcut first-keystroke="ctrl close_bracket" />
+  </action>
+  <action id="NotebookSelectCellBelowAction" />
+  <action id="OptimizeImports">
+    <keyboard-shortcut first-keystroke="ctrl alt o" />
+  </action>
+  <action id="ParameterInfo">
+    <keyboard-shortcut first-keystroke="ctrl p" />
+  </action>
+  <action id="PrevInlineCompletionSuggestionAction" />
+  <action id="PreviousEditorTab" />
+  <action id="PreviousTab">
+    <keyboard-shortcut first-keystroke="ctrl open_bracket" />
+  </action>
+  <action id="QuickImplementations">
+    <keyboard-shortcut first-keystroke="shift meta i" />
+    <keyboard-shortcut first-keystroke="shift ctrl i" />
+  </action>
+  <action id="RecentFiles">
+    <keyboard-shortcut first-keystroke="ctrl e" />
+    <keyboard-shortcut first-keystroke="alt comma" />
+    <keyboard-shortcut first-keystroke="ctrl f9" />
+  </action>
+  <action id="RecentFilesFallback" />
+  <action id="RecentLocations">
+    <keyboard-shortcut first-keystroke="shift ctrl e" />
+    <keyboard-shortcut first-keystroke="alt period" />
+  </action>
+  <action id="Refactorings.QuickListPopupAction">
+    <keyboard-shortcut first-keystroke="shift alt t" />
+  </action>
+  <action id="ReformatCode">
+    <keyboard-shortcut first-keystroke="ctrl alt l" />
+  </action>
+  <action id="ResizeToolWindowLeft">
+    <keyboard-shortcut first-keystroke="shift ctrl alt left" />
+  </action>
+  <action id="ResizeToolWindowRight">
+    <keyboard-shortcut first-keystroke="shift ctrl alt right" />
+  </action>
+  <action id="Run">
+    <keyboard-shortcut first-keystroke="f10" />
+  </action>
+  <action id="RunDashboard.CopyConfiguration">
+    <keyboard-shortcut first-keystroke="alt quote" />
+  </action>
+  <action id="SaveAll" />
+  <action id="SelectNextOccurrence">
+    <keyboard-shortcut first-keystroke="alt p" />
+  </action>
+  <action id="ShowFilterPopup" />
+  <action id="ShowProjectStructureSettings" />
+  <action id="ShowReformatFileDialog">
+    <keyboard-shortcut first-keystroke="shift ctrl alt l" />
+  </action>
+  <action id="ShowSettings" />
+  <action id="Stop">
+    <keyboard-shortcut first-keystroke="shift f9" />
+  </action>
+  <action id="SurroundWith">
+    <keyboard-shortcut first-keystroke="ctrl alt t" />
+  </action>
+  <action id="Switcher" />
+  <action id="SwitcherFallback" />
+  <action id="Synchronize" />
+  <action id="Terminal.ClearPrompt" />
+  <action id="Terminal.CloseSession" />
+  <action id="Terminal.CopyBlock">
+    <keyboard-shortcut first-keystroke="meta c" />
+    <keyboard-shortcut first-keystroke="ctrl c" />
+  </action>
+  <action id="Terminal.CopySelectedText">
+    <keyboard-shortcut first-keystroke="meta c" />
+    <keyboard-shortcut first-keystroke="meta insert" />
+    <keyboard-shortcut first-keystroke="ctrl c" />
+  </action>
+  <action id="Terminal.NewTab" />
+  <action id="TodoViewGroupByFlattenPackage" />
+  <action id="TodoViewGroupByShowPackages" />
+  <action id="ToggleBookmarkWithMnemonic" />
+  <action id="ToggleDistractionFreeMode">
+    <keyboard-shortcut first-keystroke="shift ctrl d" />
+  </action>
+  <action id="ToggleLineBreakpoint">
+    <keyboard-shortcut first-keystroke="alt 3" />
+  </action>
+  <action id="ToggleZenMode">
+    <keyboard-shortcut first-keystroke="alt z" />
+  </action>
+  <action id="UnsplitAll">
+    <keyboard-shortcut first-keystroke="shift ctrl y" />
+  </action>
+  <action id="UsageGrouping.Directory" />
+  <action id="UsageGrouping.DirectoryStructure" />
+  <action id="UsageGrouping.FileStructure" />
+  <action id="UsageGrouping.Package" />
+  <action id="Vcs.QuickListPopupAction" />
+  <action id="Vcs.ToggleAmendCommitMode" />
+  <action id="Vcs.UpdateProject" />
+  <action id="XDebugger.CopyWatch">
+    <keyboard-shortcut first-keystroke="alt quote" />
+  </action>
+  <action id="copilot.chat.inline" />
+  <action id="copilot.cycleNextInlays" />
+  <action id="copilot.cyclePrevInlays" />
+  <action id="copilot.requestCompletions" />
+  <action id="sql.ExtractFunctionAction">
+    <keyboard-shortcut first-keystroke="ctrl alt m" />
+  </action>
+  <action id="tasks.switch" />
+</keymap>
